@@ -753,19 +753,19 @@
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                             <div class="form-group">
                                 <label class="form-label">Discord</label>
-                                <input type="text" class="form-input" id="discord" placeholder="username#1234">
+                                <input type="text" class="form-input" id="discord" placeholder="Your Discord tag or link">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Instagram</label>
-                                <input type="text" class="form-input" id="instagram" placeholder="@username">
+                                <input type="text" class="form-input" id="instagram" placeholder="@username or link">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">TikTok</label>
-                                <input type="text" class="form-input" id="tiktok" placeholder="@username">
+                                <input type="text" class="form-input" id="tiktok" placeholder="@username or link">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Twitch</label>
-                                <input type="text" class="form-input" id="twitch" placeholder="channel">
+                                <input type="text" class="form-input" id="twitch" placeholder="channel or link">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Spotify</label>
@@ -872,6 +872,31 @@
         const db = firebase.firestore();
 
         let currentUser = null;
+
+        function darkenColor(hex, percent = 20) {
+            hex = hex.replace(/^#/, '');
+            const r = Math.floor(parseInt(hex.substring(0, 2), 16) * (1 - percent / 100));
+            const g = Math.floor(parseInt(hex.substring(2, 4), 16) * (1 - percent / 100));
+            const b = Math.floor(parseInt(hex.substring(4, 6), 16) * (1 - percent / 100));
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        }
+
+        function getRgb(hex) {
+            hex = hex.replace(/^#/, '');
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            return { r, g, b };
+        }
+
+        const socialInputs = [
+            { id: 'discord', icon: '🎮', name: 'Discord', base: null, strip: null },
+            { id: 'instagram', icon: '📸', name: 'Instagram', base: 'https://www.instagram.com/', strip: /^@/ },
+            { id: 'tiktok', icon: '🎵', name: 'TikTok', base: 'https://www.tiktok.com/@', strip: /^@/ },
+            { id: 'twitch', icon: '🎬', name: 'Twitch', base: 'https://www.twitch.tv/', strip: null },
+            { id: 'spotify', icon: '🎧', name: 'Spotify', base: 'https://open.spotify.com/', strip: null },
+            { id: 'custom', icon: '🔗', name: 'Custom', base: 'https://', strip: null }
+        ];
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
@@ -1011,7 +1036,8 @@
                                     pfp: '',
                                     displayName: username,
                                     bio: '',
-                                    theme: { bg: 'gradient' },
+                                    theme: { bg: 'gradient', primary: '#ff0000' },
+                                    effects: [],
                                     links: {}
                                 });
                                 showSuccessMessage(signupBtn, 'Account created!');
@@ -1045,8 +1071,8 @@
                     if (data.pfp) {
                         document.querySelector('.preview-avatar').src = data.pfp;
                     }
-                    ['discord', 'instagram', 'tiktok', 'twitch', 'spotify', 'custom'].forEach(id => {
-                        document.getElementById(id).value = data.links[id] || '';
+                    socialInputs.forEach(social => {
+                        document.getElementById(social.id).value = data.links[social.id] || '';
                     });
                     // Update badges
                     document.querySelectorAll('.badge').forEach(badge => {
@@ -1055,6 +1081,29 @@
                             badge.classList.add('selected');
                         }
                     });
+                    // Update theme
+                    if (data.theme) {
+                        if (data.theme.primary) {
+                            const primary = data.theme.primary;
+                            document.documentElement.style.setProperty('--primary', primary);
+                            document.documentElement.style.setProperty('--secondary', darkenColor(primary, 20));
+                            document.documentElement.style.setProperty('--accent', darkenColor(primary, 40));
+                            const {r, g, b} = getRgb(primary);
+                            document.documentElement.style.setProperty('--glow', `rgba(${r}, ${g}, ${b}, 0.3)`);
+                            document.querySelectorAll('.color-option').forEach(option => {
+                                option.classList.toggle('selected', option.getAttribute('data-color') === primary);
+                            });
+                        }
+                        if (data.theme.bg) {
+                            document.getElementById('bg-style').value = data.theme.bg;
+                        }
+                    }
+                    // Update effects
+                    if (data.effects) {
+                        document.querySelectorAll('.effect-card').forEach(card => {
+                            card.classList.toggle('selected', data.effects.includes(card.getAttribute('data-effect')));
+                        });
+                    }
                     if (data.admin) {
                         document.getElementById('admin-panel').style.display = 'block';
                         loadAdminUsers();
@@ -1135,6 +1184,10 @@
                     
                     const color = option.getAttribute('data-color');
                     document.documentElement.style.setProperty('--primary', color);
+                    document.documentElement.style.setProperty('--secondary', darkenColor(color, 20));
+                    document.documentElement.style.setProperty('--accent', darkenColor(color, 40));
+                    const {r, g, b} = getRgb(color);
+                    document.documentElement.style.setProperty('--glow', `rgba(${r}, ${g}, ${b}, 0.3)`);
                     updatePreview();
                 });
             });
@@ -1188,7 +1241,11 @@
                     displayName: document.getElementById('display-name').value,
                     bio: document.getElementById('bio').value,
                     pfp: document.getElementById('pfp-url').value,
-                    theme: { bg: document.getElementById('bg-style').value },
+                    theme: {
+                        bg: document.getElementById('bg-style').value,
+                        primary: document.querySelector('.color-option.selected')?.getAttribute('data-color') || '#ff0000'
+                    },
+                    effects: Array.from(document.querySelectorAll('.effect-card.selected')).map(card => card.getAttribute('data-effect')),
                     links: {
                         discord: document.getElementById('discord').value,
                         instagram: document.getElementById('instagram').value,
@@ -1234,22 +1291,28 @@
             const linksContainer = preview.querySelector('.preview-links');
             linksContainer.innerHTML = '';
             
-            const socialInputs = [
-                { id: 'discord', icon: '🎮', name: 'Discord' },
-                { id: 'instagram', icon: '📸', name: 'Instagram' },
-                { id: 'tiktok', icon: '🎵', name: 'TikTok' },
-                { id: 'twitch', icon: '🎬', name: 'Twitch' },
-                { id: 'spotify', icon: '🎧', name: 'Spotify' },
-                { id: 'custom', icon: '🔗', name: 'Custom' }
-            ];
-
             socialInputs.forEach(social => {
                 const input = document.getElementById(social.id);
-                if (input && input.value.trim()) {
+                let value = input ? input.value.trim() : '';
+                if (value) {
                     const link = document.createElement('a');
-                    link.href = input.value;
                     link.className = 'preview-link';
-                    link.textContent = `${social.icon} ${social.name}`;
+                    let href = value;
+                    let text = `${social.icon} ${social.name}`;
+                    if (!value.startsWith('http://') && !value.startsWith('https://')) {
+                        if (social.base) {
+                            let cleaned = social.strip ? value.replace(social.strip, '') : value;
+                            href = social.base + cleaned;
+                        } else {
+                            text = `${social.icon} ${social.name}: ${value}`;
+                            href = '#';
+                        }
+                    }
+                    if (social.id === 'custom' && !value.startsWith('http://') && !value.startsWith('https://')) {
+                        href = 'https://' + value;
+                    }
+                    link.href = href;
+                    link.textContent = text;
                     linksContainer.appendChild(link);
                 }
             });
@@ -1298,11 +1361,17 @@
                         profileDiv.style.position = 'relative';
                         profileDiv.style.margin = 'auto';
                         profileDiv.style.maxWidth = '400px';
+                        const primary = data.theme?.primary || '#ff0000';
+                        profileDiv.style.setProperty('--primary', primary);
+                        profileDiv.style.setProperty('--secondary', darkenColor(primary, 20));
+                        profileDiv.style.setProperty('--accent', darkenColor(primary, 40));
+                        const {r, g, b} = getRgb(primary);
+                        profileDiv.style.setProperty('--glow', `rgba(${r}, ${g}, ${b}, 0.3)`);
                         profileDiv.innerHTML = `
-                            <div class="preview-header" style="background: ${data.theme?.bg === 'gradient' ? 'linear-gradient(45deg, #ff0000, #cc0000)' : '#000000'}"></div>
+                            <div class="preview-header" style="background: ${data.theme?.bg === 'gradient' ? 'linear-gradient(45deg, var(--primary), var(--secondary))' : '#000000'};"></div>
                             <img class="preview-avatar" src="${data.pfp || ''}" alt="Avatar">
                             <div class="preview-content">
-                                <h2 class="preview-name">${data.displayName || data.username}</h2>
+                                <h2 class="preview-name ${data.effects ? data.effects.join(' ') : ''}">${data.displayName || data.username}</h2>
                                 <p class="preview-bio">${data.bio || ''}</p>
                                 <div class="preview-badges">
                                     ${data.badges ? data.badges.map(b => `<div class="badge ${b}">${b.charAt(0).toUpperCase() + b.slice(1)}</div>`).join('') : ''}
@@ -1310,8 +1379,24 @@
                                 <div class="preview-links">
                                     ${Object.entries(data.links || {}).map(([key, value]) => {
                                         if (value) {
-                                            const icon = { discord: '🎮', instagram: '📸', tiktok: '🎵', twitch: '🎬', spotify: '🎧', custom: '🔗' }[key];
-                                            return `<a href="${value}" class="preview-link">${icon} ${key.charAt(0).toUpperCase() + key.slice(1)}</a>`;
+                                            const social = socialInputs.find(s => s.id === key);
+                                            const icon = social ? social.icon : '🔗';
+                                            const name = key.charAt(0).toUpperCase() + key.slice(1);
+                                            let href = value;
+                                            let text = `${icon} ${name}`;
+                                            if (!value.startsWith('http://') && !value.startsWith('https://')) {
+                                                if (social && social.base) {
+                                                    let cleaned = social.strip ? value.replace(social.strip, '') : value;
+                                                    href = social.base + cleaned;
+                                                } else {
+                                                    text = `${icon} ${name}: ${value}`;
+                                                    href = '#';
+                                                }
+                                            }
+                                            if (key === 'custom' && !value.startsWith('http://') && !value.startsWith('https://')) {
+                                                href = 'https://' + value;
+                                            }
+                                            return `<a href="${href}" class="preview-link">${text}</a>`;
                                         }
                                         return '';
                                     }).join('')}
