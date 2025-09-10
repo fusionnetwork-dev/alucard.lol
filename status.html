@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alucard.lol - System Status</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff0000;
+            --secondary: #cc0000;
+            --accent: #990000;
+            --dark: #000000;
+            --darker: #111111;
+            --surface: #222222;
+            --surface-light: #333333;
+            --text-primary: #ffffff;
+            --text-secondary: #dddddd;
+            --glow: rgba(255, 0, 0, 0.3);
+            --success: #00ff88;
+            --success-dark: #00cc6a;
+            --error: #ff4444;
+            --warning: #ff6b00;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.05;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        .bg-particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 10%; animation-delay: 0s; }
+        .bg-particle:nth-child(2) { width: 6px; height: 6px; top: 60%; left: 80%; animation-delay: 2s; }
+        .bg-particle:nth-child(3) { width: 3px; height: 3px; top: 40%; left: 30%; animation-delay: 4s; }
+        .bg-particle:nth-child(4) { width: 5px; height: 5px; top: 80%; left: 60%; animation-delay: 1s; }
+        .bg-particle:nth-child(5) { width: 8px; height: 8px; top: 30%; left: 70%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.05; }
+            33% { transform: translateY(-30px) rotate(120deg); opacity: 0.1; }
+            66% { transform: translateY(15px) rotate(240deg); opacity: 0.03; }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid var(--primary);
+            padding: 2rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--glow);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Overall Status */
+        .overall-status {
+            background: var(--surface);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .status-indicator {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            animation: pulse-status 3s infinite ease-in-out;
+        }
+
+        .status-indicator.degraded {
+            background: linear-gradient(45deg, var(--warning), #ff8c00);
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
+        }
+
+        @keyframes pulse-status {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .overall-status h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .overall-status p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Services Grid */
+        .services-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .service-item {
+            background: var(--surface);
+            border: 1px solid var(--primary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .service-details h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .service-details p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .service-status {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .status-badge.operational {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-badge.degraded {
+            background: rgba(255, 107, 0, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .status-badge.outage {
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        .status-dot.operational {
+            background: var(--success);
+        }
+
+        .status-dot.degraded {
+            background: var(--warning);
+        }
+
+        .status-dot.outage {
+            background: var(--error);
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .response-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        /* Incidents Section */
+        .incidents-section {
+            background: var(--surface);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .incident-item {
+            padding: 1.5rem;
+            border-left: 4px solid var(--error);
+            background: rgba(255, 68, 68, 0.1);
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 1rem;
+        }
+
+        .incident-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .incident-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .incident-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .incident-time {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .incident-description {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .incident-status {
+            font-size: 0.85rem;
+            color: var(--error);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--primary);
+            margin-top: 3rem;
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--secondary);
+        }
+
+        /* Auto-refresh indicator */
+        .refresh-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--primary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .main {
+                padding: 2rem 1rem;
+            }
+
+            .overall-status {
+                padding: 2rem;
+            }
+
+            .service-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .service-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .service-status {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .incident-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .refresh-indicator {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin: 1rem auto;
+                display: block;
+                width: fit-content;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-container">
+        <div class="bg-particle"></div>
+        <div class="bg-particle"></div>
+        <div class="bg-particle"></div>
+        <div class="bg-particle"></div>
+        <div class="bg-particle"></div>
+    </div>
+
+    <!-- Auto-refresh indicator -->
+    <div class="refresh-indicator">
+        Auto-refresh: <span id="countdown">30</span>s
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <h1 class="logo">alucard.lol</h1>
+        <p class="subtitle">System Status Dashboard</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Overall Status -->
+        <div class="overall-status">
+            <div class="status-indicator degraded">⚠️</div>
+            <h2>Partial Service Degradation</h2>
+            <p>
+                We are currently experiencing database connectivity issues affecting some features. 
+                Our team is actively working to resolve this issue. All other services are operating normally.
+            </p>
+        </div>
+
+        <!-- Services Section -->
+        <div class="services-section">
+            <h2 class="section-title">Service Status</h2>
+            <div class="services-grid">
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(0, 255, 136, 0.2); color: var(--success);">🌐</div>
+                        <div class="service-details">
+                            <h3>Website</h3>
+                            <p>Main website and profile pages</p>
+                        </div>
+                    </div>
+                    <div class="service-status">
+                        <div class="status-badge operational">
+                            <div class="status-dot operational"></div>
+                            Operational
+                        </div>
+                        <div class="response-time">
+                            <div>Response: 45ms</div>
+                            <div>Uptime: 99.9%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(255, 68, 68, 0.2); color: var(--error);">🗄️</div>
+                        <div class="service-details">
+                            <h3>Database</h3>
+                            <p>User data and profile storage</p>
+                        </div>
+                    </div>
+                    <div class="service-status">
+                        <div class="status-badge outage">
+                            <div class="status-dot outage"></div>
+                            Major Outage
+                        </div>
+                        <div class="response-time">
+                            <div>Response: Timeout</div>
+                            <div>Uptime: 87.2%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(0, 255, 136, 0.2); color: var(--success);">🔐</div>
+                        <div class="service-details">
+                            <h3>Authentication</h3>
+                            <p>User login and registration</p>
+                        </div>
+                    </div>
+                    <div class="service-status">
+                        <div class="status-badge operational">
+                            <div class="status-dot operational"></div>
+                            Operational
+                        </div>
+                        <div class="response-time">
+                            <div>Response: 120ms</div>
+                            <div>Uptime: 99.8%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(0, 255, 136, 0.2); color: var(--success);">📡</div>
+                        <div class="service-details">
+                            <h3>API</h3>
+                            <p>Application programming interface</p>
+                        </div>
+                    </div>
+                    <div class="service-status">
+                        <div class="status-badge operational">
+                            <div class="status-dot operational"></div>
+                            Operational
+                        </div>
+                        <div class="response-time">
+                            <div>Response: 67ms</div>
+                            <div>Uptime: 99.7%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(0, 255, 136, 0.2); color: var(--success);">🎨</div>
+                        <div class="service-details">
+                            <h3>Media Delivery</h3>
+                            <p>Image and asset hosting</p>
+                        </div>
+                    </div>
+                    <div class="service-status">
+                        <div class="status-badge operational">
+                            <div class="status-dot operational"></div>
+                            Operational
+                        </div>
+                        <div class="response-time">
+                            <div>Response: 89ms</div>
+                            <div>Uptime: 99.9%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(0, 255, 136, 0.2); color: var(--success);">💳</div>
+                        <div class="service-details">
+                            <h3>Payment System</h3>
+                            <p>Premium subscriptions and billing</p>
+                        </div>
+                    </div>
+                    <div class="service-status">
+                        <div class="status-badge operational">
+                            <div class="status-dot operational"></div>
+                            Operational
+                        </div>
+                        <div class="response-time">
+                            <div>Response: 156ms</div>
+                            <div>Uptime: 99.6%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Incidents -->
+        <div class="incidents-section">
+            <h2 class="section-title">Active Incidents</h2>
+            <div class="incident-item">
+                <div class="incident-header">
+                    <div class="incident-title">Database Connection Issues</div>
+                    <div class="incident-time">Started 30 minutes ago</div>
+                </div>
+                <div class="incident-description">
+                    We are experiencing intermittent connectivity issues with our primary database cluster. 
+                    This may result in slower load times for profiles and temporary inability to save changes. 
+                    We have identified the root cause and are implementing a fix.
+                </div>
+                <div class="incident-status">INVESTIGATING - Will be fixed momentarily from: 5 AM PDT - 1:30 PM PDT</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Last updated: <span id="last-updated">Just now</span></p>
+        <p>All times displayed in your local timezone</p>
+        <p><a href="/">← Back to alucard.lol</a> | <a href="mailto:support@alucard.lol">Contact Support</a></p>
+    </div>
+
+    <script>
+        // Auto-refresh functionality
+        let countdown = 30;
+        const countdownElement = document.getElementById('countdown');
+        const lastUpdatedElement = document.getElementById('last-updated');
+
+        function updateCountdown() {
+            countdownElement.textContent = countdown;
+            countdown--;
+            
+            if (countdown < 0) {
+                countdown = 30;
+                updateLastUpdated();
+                // In a real implementation, you would fetch fresh data here
+                simulateStatusUpdate();
+            }
+        }
+
+        function updateLastUpdated() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            lastUpdatedElement.textContent = timeString;
+        }
+
+        function simulateStatusUpdate() {
+            // Simulate random response time changes for operational services
+            const responseTimes = document.querySelectorAll('.response-time div:first-child');
+            responseTimes.forEach((element, index) => {
+                if (index !== 1) { // Skip database (index 1)
+                    const baseTime = [45, 0, 120, 67, 89, 156][index] || 100;
+                    const variation = Math.floor(Math.random() * 40) - 20; // ±20ms variation
+                    const newTime = Math.max(10, baseTime + variation);
+                    element.textContent = `Response: ${newTime}ms`;
+                }
+            });
+        }
+
+        // Initialize
+        updateLastUpdated();
+        setInterval(updateCountdown, 1000);
+
+        // Add some interactive effects
+        document.addEventListener('click', function(e) {
+            // Click particle effect
+            if (Math.random() > 0.8) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.left = e.clientX + 'px';
+                particle.style.top = e.clientY + 'px';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = '#ff0000';
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '9999';
+                particle.style.animation = 'clickParticle 0.6s ease-out forwards';
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 600);
+            }
+        });
+
+        // Add click particle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes clickParticle {
+                0% { transform: scale(0); opacity: 1; }
+                100% { transform: scale(6); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Simulate database status improvement after 5 minutes (for demo purposes)
+        setTimeout(() => {
+            const dbService = document.querySelectorAll('.service-item')[1];
+            const statusBadge = dbService.querySelector('.status-badge');
+            const statusDot = dbService.querySelector('.status-dot');
+            const responseTime = dbService.querySelector('.response-time');
+            const serviceIcon = dbService.querySelector('.service-icon');
+            
+            statusBadge.className = 'status-badge degraded';
+            statusBadge.innerHTML = '<div class="status-dot degraded"></div>Degraded Performance';
+            responseTime.innerHTML = '<div>Response: 2.3s</div><div>Uptime: 89.5%</div>';
+            serviceIcon.style.background = 'rgba(255, 107, 0, 0.2)';
+            serviceIcon.style.color = 'var(--warning)';
+            
+            // Update overall status
+            const overallStatus = document.querySelector('.overall-status h2');
+            const overallDesc = document.querySelector('.overall-status p');
+            overallStatus.textContent = 'Partial Service Degradation';
+            overallDesc.textContent = 'Database performance has improved but is still experiencing slower response times. We continue to monitor and optimize performance.';
+            
+            // Update incident
+            const incidentStatus = document.querySelector('.incident-status');
+            incidentStatus.textContent = 'MONITORING - Performance improving, estimated full resolution in 15 minutes';
+        }, 300000); // 5 minutes
+    </script>
+</body>
+</html>
