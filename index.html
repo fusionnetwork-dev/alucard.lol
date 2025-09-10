@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>alucard.lol - the best</title>
+    <title>alucard.lol - Under Maintenance</title>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap" rel="stylesheet">
-    <!-- Firebase SDKs (Auth and Firestore only) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -23,25 +19,20 @@
             --dark: #000000;
             --darker: #111111;
             --surface: #222222;
-            --surface-light: #333333;
             --text-primary: #ffffff;
             --text-secondary: #dddddd;
             --glow: rgba(255, 0, 0, 0.3);
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
+        html, body {
+            height: 100%;
             font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: var(--darker);
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
             color: var(--text-primary);
-            overflow-x: hidden;
-            line-height: 1.6;
+            overflow: hidden;
         }
 
-        /* Simplified Background */
+        /* Animated Background Particles */
         .bg-container {
             position: fixed;
             top: 0;
@@ -49,514 +40,253 @@
             width: 100%;
             height: 100vh;
             z-index: -1;
-            background: var(--dark);
         }
 
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.95);
-            border-bottom: 1px solid var(--primary);
-            transition: all 0.3s ease;
-        }
-
-        .header.scrolled {
-            background: rgba(0, 0, 0, 0.98);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            color: var(--primary);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--primary);
-            background: rgba(255, 0, 0, 0.1);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            z-index: 10;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .hero-description {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            line-height: 1.8;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
+        .particle {
+            position: absolute;
             background: var(--primary);
-            color: var(--text-primary);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        .cta-button:hover {
-            background: var(--secondary);
-        }
-
-        /* Sections */
-        .section {
-            display: none;
-            padding: 4rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        /* Auth Section */
-        .auth-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: var(--surface);
-            border: 1px solid var(--primary);
-            border-radius: 20px;
-            padding: 3rem;
-        }
-
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 2rem;
-            background: rgba(255, 0, 0, 0.1);
-            border-radius: 15px;
-            padding: 0.5rem;
-        }
-
-        .auth-tab {
-            flex: 1;
-            padding: 1rem;
-            text-align: center;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-weight: 500;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .auth-tab.active {
-            background: var(--primary);
-            color: var(--text-primary);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            background: var(--surface-light);
-            border: 1px solid var(--primary);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--secondary);
-        }
-
-        .form-button {
-            width: 100%;
-            padding: 1rem;
-            background: var(--primary);
-            border: none;
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .form-button:hover {
-            background: var(--secondary);
-        }
-
-        .form-error {
-            color: var(--primary);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-
-        /* Profile Editor */
-        .profile-layout {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-
-        .editor-panel {
-            background: var(--surface);
-            border: 1px solid var(--primary);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .panel-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .color-palette {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 0.8rem;
-            margin-top: 1rem;
-        }
-
-        .color-option {
-            width: 50px;
-            height: 50px;
-            border-radius: 15px;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .color-option:hover, .color-option.selected {
-            border-color: var(--text-primary);
-        }
-
-        .effects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .effect-card {
-            padding: 1rem;
-            background: var(--surface-light);
-            border: 1px solid var(--primary);
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .effect-card:hover, .effect-card.selected {
-            background: rgba(255, 0, 0, 0.1);
-            border-color: var(--secondary);
-        }
-
-        .badges-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 0.8rem;
-            margin-top: 1rem;
-        }
-
-        .badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .badge.owner { background: #ffd700; color: #000; }
-        .badge.dev { background: #00ff88; color: #000; }
-        .badge.staff { background: #3b82f6; color: #fff; }
-        .badge.premium { background: #8b5cf6; color: #fff; }
-        .badge.beta { background: #ff6b00; color: #000; }
-
-        .badge:hover, .badge.selected {
-            border-color: var(--text-primary);
-        }
-
-        /* Profile Preview */
-        .profile-preview {
-            position: sticky;
-            top: 120px;
-            background: var(--surface);
-            border: 1px solid var(--primary);
-            border-radius: 25px;
-            overflow: hidden;
-        }
-
-        .preview-header {
-            height: 150px;
-            background: var(--primary);
-            position: relative;
-        }
-
-        .preview-avatar {
-            width: 100px;
-            height: 100px;
             border-radius: 50%;
-            background: var(--secondary);
-            margin: -50px auto 0;
-            border: 4px solid var(--text-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            object-fit: cover;
+            opacity: 0.1;
+            animation: float 6s infinite ease-in-out;
         }
 
-        .preview-content {
-            padding: 2rem;
-            text-align: center;
+        .particle:nth-child(1) {
+            width: 4px;
+            height: 4px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 8s;
         }
 
-        .preview-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
+        .particle:nth-child(2) {
+            width: 6px;
+            height: 6px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+            animation-duration: 10s;
         }
 
-        .preview-bio {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+        .particle:nth-child(3) {
+            width: 3px;
+            height: 3px;
+            top: 40%;
+            left: 30%;
+            animation-delay: 4s;
+            animation-duration: 7s;
         }
 
-        .preview-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-bottom: 1.5rem;
+        .particle:nth-child(4) {
+            width: 5px;
+            height: 5px;
+            top: 80%;
+            left: 60%;
+            animation-delay: 1s;
+            animation-duration: 9s;
         }
 
-        .preview-links {
+        .particle:nth-child(5) {
+            width: 2px;
+            height: 2px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 3s;
+            animation-duration: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(10px) rotate(240deg); }
+        }
+
+        /* Main Container */
+        .maintenance-container {
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
         }
 
-        .preview-link {
-            padding: 0.8rem;
+        /* Logo */
+        .logo {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px var(--glow);
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 20px var(--glow); }
+            50% { text-shadow: 0 0 30px var(--glow), 0 0 40px var(--glow); }
+        }
+
+        /* Main Content */
+        .maintenance-content {
+            max-width: 600px;
+            background: rgba(34, 34, 34, 0.8);
+            border: 1px solid var(--primary);
+            border-radius: 25px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .maintenance-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .maintenance-message {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .status-text {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 2rem 0;
+            background: var(--surface);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            animation: progress 4s infinite ease-in-out;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 75%; }
+            100% { width: 0%; }
+        }
+
+        /* ETA */
+        .eta {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .eta-time {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
             background: rgba(255, 0, 0, 0.1);
             border: 1px solid var(--primary);
-            border-radius: 10px;
+            border-radius: 25px;
             color: var(--text-primary);
             text-decoration: none;
+            font-weight: 500;
             transition: all 0.3s ease;
             font-size: 0.9rem;
         }
 
-        .preview-link:hover {
+        .social-link:hover {
             background: rgba(255, 0, 0, 0.2);
-        }
-
-        /* Admin Panel */
-        .admin-panel {
-            background: var(--surface);
-            border: 1px solid var(--primary);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-top: 2rem;
-        }
-
-        .user-list {
-            list-style: none;
-        }
-
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid var(--primary);
-        }
-
-        .admin-action {
-            background: var(--primary);
-            color: var(--text-primary);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .admin-action:hover {
-            background: var(--secondary);
-        }
-
-        /* Premium Section */
-        .premium-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .premium-card {
-            background: var(--surface);
-            border: 1px solid var(--primary);
-            border-radius: 20px;
-            padding: 2.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .premium-card:hover {
             border-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--glow);
         }
 
-        .premium-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .premium-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .premium-description {
+        /* Footer */
+        .maintenance-footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .premium-pricing {
-            margin: 3rem 0;
             text-align: center;
-        }
-
-        .pricing-card {
-            max-width: 400px;
-            margin: 0 auto;
-            background: var(--surface-light);
-            border: 2px solid var(--primary);
-            border-radius: 25px;
-            padding: 3rem;
-        }
-
-        .pricing-price {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
         }
 
         /* Mobile Responsiveness */
-        @media (max-width: 1024px) {
-            .profile-layout {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .profile-preview {
-                position: relative;
-                top: 0;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-        }
-
         @media (max-width: 768px) {
-            .nav {
+            .maintenance-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .social-links {
                 flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
+                align-items: center;
             }
 
-            .hero-title {
-                font-size: 3rem;
+            .social-link {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
             }
 
-            .section {
-                padding: 2rem 1rem;
-            }
-
-            .color-palette {
-                grid-template-columns: repeat(4, 1fr);
+            .maintenance-footer {
+                position: relative;
+                bottom: 0;
+                margin-top: 2rem;
+                transform: none;
+                left: 0;
             }
         }
 
-        /* Custom scrollbar */
+        /* Custom scrollbar (if needed) */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -574,34 +304,15 @@
             background: var(--secondary);
         }
 
-        /* Loading Animation */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: var(--darker);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            opacity: 1;
-            transition: opacity 0.5s ease-out;
-        }
-
-        .loading.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loader {
-            width: 60px;
-            height: 60px;
+        /* Loading animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
             border: 3px solid rgba(255, 0, 0, 0.3);
             border-top: 3px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            margin: 1rem auto;
         }
 
         @keyframes spin {
@@ -611,808 +322,100 @@
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading" id="loading">
-        <div class="loader"></div>
+    <!-- Animated Background -->
+    <div class="bg-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
     </div>
 
-    <!-- Header -->
-    <header class="header" id="header">
-        <nav class="nav">
-            <div class="logo">alucard.lol</div>
-            <ul class="nav-links">
-                <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
-                <li><a href="#" class="nav-link" data-section="auth">Login</a></li>
-                <li><a href="#" class="nav-link" data-section="profile">Profile</a></li>
-                <li><a href="#" class="nav-link" data-section="premium">Premium</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Main Maintenance Container -->
+    <div class="maintenance-container">
+        <h1 class="logo">alucard.lol</h1>
+        
+        <div class="maintenance-content">
+            <h2 class="maintenance-title">Under Maintenance</h2>
+            
+            <p class="maintenance-message">
+                We're currently performing scheduled maintenance to improve your experience. 
+                The site will be back online shortly with enhanced features and performance improvements.
+            </p>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="section active" id="home">
-            <div class="hero">
-                <div class="hero-content">
-                    <h1 class="hero-title">alucard.lol</h1>
-                    <p class="hero-subtitle">the best to do it</p>
-                    <p class="hero-description">
-                        Create profiles that stand out. Customize stuff.
-                    </p>
-                    <a href="#" class="cta-button" data-section="auth">Get started now</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Auth Section -->
-        <section class="section" id="auth">
-            <div class="auth-container">
-                <div class="auth-tabs">
-                    <button class="auth-tab active" data-tab="login">Sign In</button>
-                    <button class="auth-tab" data-tab="signup">Create Account</button>
-                </div>
-
-                <div id="login-form" class="auth-form">
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-input" id="login-email" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-input" id="login-password" placeholder="Enter your password" required>
-                    </div>
-                    <button class="form-button" id="login-btn">Sign In</button>
-                </div>
-
-                <div id="signup-form" class="auth-form" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">Username</label>
-                        <input type="text" class="form-input" id="signup-username" placeholder="Choose a username" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-input" id="signup-email" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-input" id="signup-password" placeholder="Create a password" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Confirm Password</label>
-                        <input type="password" class="form-input" id="signup-confirm" placeholder="Confirm your password" required>
-                    </div>
-                    <button class="form-button" id="signup-btn">Create Account</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Profile Section -->
-        <section class="section" id="profile">
-            <div class="profile-layout">
-                <div class="editor-section">
-                    <div class="editor-panel">
-                        <h3 class="panel-title">Basic Information</h3>
-                        <div class="form-group">
-                            <label class="form-label">Display Name</label>
-                            <input type="text" class="form-input" id="display-name" placeholder="Your display name">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Bio</label>
-                            <textarea class="form-input" id="bio" rows="4" placeholder="Tell your story..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Profile Picture URL</label>
-                            <input type="url" class="form-input" id="pfp-url" placeholder="https://example.com/image.jpg">
-                        </div>
-                    </div>
-
-                    <div class="editor-panel">
-                        <h3 class="panel-title">Theme Customization</h3>
-                        <div class="form-group">
-                            <label class="form-label">Primary Color</label>
-                            <div class="color-palette">
-                                <div class="color-option selected" style="background: #ff0000" data-color="#ff0000"></div>
-                                <div class="color-option" style="background: #cc0000" data-color="#cc0000"></div>
-                                <div class="color-option" style="background: #990000" data-color="#990000"></div>
-                                <div class="color-option" style="background: #660000" data-color="#660000"></div>
-                                <div class="color-option" style="background: #ff3333" data-color="#ff3333"></div>
-                                <div class="color-option" style="background: #ff6666" data-color="#ff6666"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Background Style</label>
-                            <select class="form-input" id="bg-style">
-                                <option value="gradient">Gradient</option>
-                                <option value="solid">Solid Black</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="editor-panel">
-                        <h3 class="panel-title">Visual Effects</h3>
-                        <div class="effects-grid">
-                            <div class="effect-card" data-effect="glow">Glow Text</div>
-                            <div class="effect-card" data-effect="pulse">Pulse</div>
-                        </div>
-                    </div>
-
-                    <div class="editor-panel">
-                        <h3 class="panel-title">Badges & Status</h3>
-                        <div class="badges-grid">
-                            <div class="badge owner" data-badge="owner">Owner</div>
-                            <div class="badge dev" data-badge="dev">Developer</div>
-                            <div class="badge staff" data-badge="staff">Staff</div>
-                            <div class="badge premium" data-badge="premium">Premium</div>
-                            <div class="badge beta" data-badge="beta">Beta Tester</div>
-                        </div>
-                    </div>
-
-                    <div class="editor-panel">
-                        <h3 class="panel-title">Social Links</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                            <div class="form-group">
-                                <label class="form-label">Discord</label>
-                                <input type="text" class="form-input" id="discord" placeholder="Your Discord tag or link">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Instagram</label>
-                                <input type="text" class="form-input" id="instagram" placeholder="@username or link">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">TikTok</label>
-                                <input type="text" class="form-input" id="tiktok" placeholder="@username or link">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Twitch</label>
-                                <input type="text" class="form-input" id="twitch" placeholder="channel or link">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Spotify</label>
-                                <input type="text" class="form-input" id="spotify" placeholder="Profile URL">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Custom Link</label>
-                                <input type="text" class="form-input" id="custom" placeholder="https://...">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="cta-button" id="save-profile">Save Changes</button>
-                    </div>
-                </div>
-
-                <div class="profile-preview" id="profile-preview">
-                    <div class="preview-header"></div>
-                    <img class="preview-avatar" src="" alt="Avatar">
-                    <div class="preview-content">
-                        <h2 class="preview-name">YourUsername</h2>
-                        <p class="preview-bio">Crafting digital shadows in the void...</p>
-                        <div class="preview-badges">
-                            <div class="badge premium">Premium</div>
-                            <div class="badge beta">Beta</div>
-                        </div>
-                        <div class="preview-links">
-                            <a href="#" class="preview-link">🎮 Discord</a>
-                            <a href="#" class="preview-link">📸 Instagram</a>
-                            <a href="#" class="preview-link">🎵 TikTok</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Admin Panel -->
-            <div class="admin-panel" id="admin-panel" style="display: none;">
-                <h3 class="panel-title">Admin Moderation Panel</h3>
-                <ul class="user-list" id="user-list"></ul>
-            </div>
-        </section>
-
-        <!-- Premium Section -->
-        <section class="section" id="premium">
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <h2 style="font-size: 3rem; font-weight: 700; margin-bottom: 1rem; color: var(--primary);">Premium Features</h2>
-                <p style="font-size: 1.2rem; color: var(--text-secondary);">Unlock more stuff</p>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span class="status-text">Maintenance in Progress</span>
             </div>
 
-            <div class="premium-grid">
-                <div class="premium-card">
-                    <span class="premium-icon">📊</span>
-                    <h3 class="premium-title">Analytics</h3>
-                    <p class="premium-description">See stats.</p>
-                </div>
-                <div class="premium-card">
-                    <span class="premium-icon">🎨</span>
-                    <h3 class="premium-title">Custom CSS</h3>
-                    <p class="premium-description">Add your own styles.</p>
-                </div>
-                <div class="premium-card">
-                    <span class="premium-icon">🌐</span>
-                    <h3 class="premium-title">Custom URL</h3>
-                    <p class="premium-description">Get alucard.lol/yourname.</p>
-                </div>
-                <div class="premium-card">
-                    <span class="premium-icon">✨</span>
-                    <h3 class="premium-title">Effects</h3>
-                    <p class="premium-description">More effects.</p>
-                </div>
-                <div class="premium-card">
-                    <span class="premium-icon">🔒</span>
-                    <h3 class="premium-title">Password Protection</h3>
-                    <p class="premium-description">Lock your profile.</p>
-                </div>
-                <div class="premium-card">
-                    <span class="premium-icon">🎵</span>
-                    <h3 class="premium-title">Music</h3>
-                    <p class="premium-description">Add music.</p>
-                </div>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
             </div>
 
-            <div class="premium-pricing">
-                <div class="pricing-card">
-                    <div class="pricing-price">$9.99<span style="font-size: 1rem; color: var(--text-secondary);">/month</span></div>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Unlock all premium features</p>
-                    <button class="cta-button" id="upgrade-btn" style="width: 100%;">Upgrade to Premium</button>
-                </div>
+            <div class="loading-spinner"></div>
+
+            <p class="eta">
+                Estimated completion: <span class="eta-time" id="eta-time">2 hours</span>
+            </p>
+
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    🎮 Discord Updates
+                </a>
+                <a href="#" class="social-link">
+                    📱 Status Page
+                </a>
+                <a href="#" class="social-link">
+                    ✉️ Contact Support
+                </a>
             </div>
-        </section>
-    </main>
+        </div>
+
+        <div class="maintenance-footer">
+            <p>&copy; 2025 alucard.lol - We'll be back soon!</p>
+        </div>
+    </div>
 
     <script>
-        // Firebase Config - Replace with your own
-        const firebaseConfig = {
-            apiKey: "AIzaSyBRX1FlZVxKaCnJwrf5gb6v_nw_YZYrVWU",
-            authDomain: "swaqqxyz.firebaseapp.com",
-            projectId: "swaqqxyz",
-            messagingSenderId: "1029810538334",
-            appId: "1:1029810538334:web:274e0631e6d83df7bdb1cf"
-        };
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        // Static ETA - no countdown needed for "till after school"
+        // The completion time is now hardcoded in the HTML
 
-        let currentUser = null;
-
-        function darkenColor(hex, percent = 20) {
-            hex = hex.replace(/^#/, '');
-            const r = Math.floor(parseInt(hex.substring(0, 2), 16) * (1 - percent / 100));
-            const g = Math.floor(parseInt(hex.substring(2, 4), 16) * (1 - percent / 100));
-            const b = Math.floor(parseInt(hex.substring(4, 6), 16) * (1 - percent / 100));
-            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-        }
-
-        function getRgb(hex) {
-            hex = hex.replace(/^#/, '');
-            const r = parseInt(hex.substring(0, 2), 16);
-            const g = parseInt(hex.substring(2, 4), 16);
-            const b = parseInt(hex.substring(4, 6), 16);
-            return { r, g, b };
-        }
-
-        const socialInputs = [
-            { id: 'discord', icon: '🎮', name: 'Discord', base: null, strip: null },
-            { id: 'instagram', icon: '📸', name: 'Instagram', base: 'https://www.instagram.com/', strip: /^@/ },
-            { id: 'tiktok', icon: '🎵', name: 'TikTok', base: 'https://www.tiktok.com/@', strip: /^@/ },
-            { id: 'twitch', icon: '🎬', name: 'Twitch', base: 'https://www.twitch.tv/', strip: null },
-            { id: 'spotify', icon: '🎧', name: 'Spotify', base: 'https://open.spotify.com/', strip: null },
-            { id: 'custom', icon: '🔗', name: 'Custom', base: 'https://', strip: null }
-        ];
-
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hide loading screen
+        // Add some interactivity - particle click effect
+        document.addEventListener('click', function(e) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.left = e.clientX + 'px';
+            particle.style.top = e.clientY + 'px';
+            particle.style.width = '6px';
+            particle.style.height = '6px';
+            particle.style.background = '#ff0000';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '1000';
+            particle.style.animation = 'clickParticle 0.8s ease-out forwards';
+            
+            document.body.appendChild(particle);
+            
             setTimeout(() => {
-                document.getElementById('loading').classList.add('fade-out');
-            }, 1500);
-
-            // Initialize navigation
-            initNavigation();
-            
-            // Initialize auth system with Firebase
-            initAuth();
-            
-            // Initialize profile editor
-            initProfileEditor();
-            
-            // Add scroll effects
-            initScrollEffects();
-
-            // Check for path and load profile if applicable
-            loadPathProfile();
+                document.body.removeChild(particle);
+            }, 800);
         });
 
-        // Navigation system
-        function initNavigation() {
-            const navLinks = document.querySelectorAll('.nav-link, .cta-button[data-section]');
-            const sections = document.querySelectorAll('.section');
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetSection = link.getAttribute('data-section');
-                    
-                    // Update active nav link
-                    document.querySelectorAll('.nav-link').forEach(nl => nl.classList.remove('active'));
-                    document.querySelectorAll(`[data-section="${targetSection}"]`).forEach(nl => {
-                        if (nl.classList.contains('nav-link')) {
-                            nl.classList.add('active');
-                        }
-                    });
-
-                    // Show target section
-                    sections.forEach(section => section.classList.remove('active'));
-                    document.getElementById(targetSection).classList.add('active');
-                });
-            });
-        }
-
-        // Scroll effects
-        function initScrollEffects() {
-            const header = document.getElementById('header');
-            
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
+        // Add click particle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes clickParticle {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
                 }
-            });
-        }
-
-        // Auth system with Firebase
-        function initAuth() {
-            const loginBtn = document.getElementById('login-btn');
-            const signupBtn = document.getElementById('signup-btn');
-
-            // Tab switching
-            const authTabs = document.querySelectorAll('.auth-tab');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-
-            authTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabType = tab.getAttribute('data-tab');
-                    
-                    authTabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-
-                    if (tabType === 'login') {
-                        loginForm.style.display = 'block';
-                        signupForm.style.display = 'none';
-                    } else {
-                        loginForm.style.display = 'none';
-                        signupForm.style.display = 'block';
-                    }
-                });
-            });
-
-            // Login with Firebase
-            loginBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-
-                auth.signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        currentUser = userCredential.user;
-                        showSuccessMessage(loginBtn, 'Welcome back!');
-                        setTimeout(() => navigateToProfile(), 1500);
-                    })
-                    .catch((error) => {
-                        showErrorMessage(error.message);
-                    });
-            });
-
-            // Signup with Firebase
-            signupBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('signup-username').value;
-                const email = document.getElementById('signup-email').value;
-                const password = document.getElementById('signup-password').value;
-                const confirmPassword = document.getElementById('signup-confirm').value;
-
-                if (password !== confirmPassword) {
-                    showErrorMessage('Passwords do not match');
-                    return;
+                100% {
+                    transform: scale(4);
+                    opacity: 0;
                 }
-
-                // Check if username is taken
-                db.collection('users').where('username', '==', username).get()
-                    .then((querySnapshot) => {
-                        if (!querySnapshot.empty) {
-                            showErrorMessage('Username already taken');
-                            return;
-                        }
-
-                        auth.createUserWithEmailAndPassword(email, password)
-                            .then((userCredential) => {
-                                currentUser = userCredential.user;
-                                // Save additional data to Firestore
-                                db.collection('users').doc(currentUser.uid).set({
-                                    username: username,
-                                    email: email,
-                                    admin: false,
-                                    badges: ['beta'],
-                                    pfp: '',
-                                    displayName: username,
-                                    bio: '',
-                                    theme: { bg: 'gradient', primary: '#ff0000' },
-                                    effects: [],
-                                    links: {}
-                                });
-                                showSuccessMessage(signupBtn, 'Account created!');
-                                setTimeout(() => navigateToProfile(), 1500);
-                            })
-                            .catch((error) => {
-                                showErrorMessage(error.message);
-                            });
-                    });
-            });
-
-            // Listen for auth state
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    currentUser = user;
-                    loadUserData(user.uid);
-                } else {
-                    currentUser = null;
-                    document.getElementById('admin-panel').style.display = 'none';
-                }
-            });
-        }
-
-        function loadUserData(uid) {
-            db.collection('users').doc(uid).get().then((doc) => {
-                if (doc.exists) {
-                    const data = doc.data();
-                    document.getElementById('display-name').value = data.displayName || data.username;
-                    document.getElementById('bio').value = data.bio || '';
-                    document.getElementById('pfp-url').value = data.pfp || '';
-                    if (data.pfp) {
-                        document.querySelector('.preview-avatar').src = data.pfp;
-                    }
-                    socialInputs.forEach(social => {
-                        document.getElementById(social.id).value = data.links[social.id] || '';
-                    });
-                    // Update badges
-                    document.querySelectorAll('.badge').forEach(badge => {
-                        badge.classList.remove('selected');
-                        if (data.badges.includes(badge.getAttribute('data-badge'))) {
-                            badge.classList.add('selected');
-                        }
-                    });
-                    // Update theme
-                    if (data.theme) {
-                        if (data.theme.primary) {
-                            const primary = data.theme.primary;
-                            document.documentElement.style.setProperty('--primary', primary);
-                            document.documentElement.style.setProperty('--secondary', darkenColor(primary, 20));
-                            document.documentElement.style.setProperty('--accent', darkenColor(primary, 40));
-                            const {r, g, b} = getRgb(primary);
-                            document.documentElement.style.setProperty('--glow', `rgba(${r}, ${g}, ${b}, 0.3)`);
-                            document.querySelectorAll('.color-option').forEach(option => {
-                                option.classList.toggle('selected', option.getAttribute('data-color') === primary);
-                            });
-                        }
-                        if (data.theme.bg) {
-                            document.getElementById('bg-style').value = data.theme.bg;
-                        }
-                    }
-                    // Update effects
-                    if (data.effects) {
-                        document.querySelectorAll('.effect-card').forEach(card => {
-                            card.classList.toggle('selected', data.effects.includes(card.getAttribute('data-effect')));
-                        });
-                    }
-                    if (data.admin) {
-                        document.getElementById('admin-panel').style.display = 'block';
-                        loadAdminUsers();
-                    }
-                    updatePreview();
-                }
-            });
-        }
-
-        function loadAdminUsers() {
-            const userList = document.getElementById('user-list');
-            userList.innerHTML = '';
-            db.collection('users').get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    if (!data.banned) {
-                        const li = document.createElement('li');
-                        li.className = 'user-item';
-                        li.innerHTML = `
-                            <span>${data.username} (${data.email})</span>
-                            <div>
-                                <button class="admin-action" onclick="givePremium('${doc.id}')">Give Premium</button>
-                                <button class="admin-action" onclick="banUser('${doc.id}')">Ban</button>
-                            </div>
-                        `;
-                        userList.appendChild(li);
-                    }
-                });
-            });
-        }
-
-        window.givePremium = function(uid) {
-            db.collection('users').doc(uid).update({
-                badges: firebase.firestore.FieldValue.arrayUnion('premium')
-            }).then(() => {
-                showSuccessMessage(null, 'Premium given!');
-            });
-        }
-
-        window.banUser = function(uid) {
-            db.collection('users').doc(uid).update({
-                banned: true
-            }).then(() => {
-                showSuccessMessage(null, 'User banned!');
-                loadAdminUsers();
-            });
-        }
-
-        function showSuccessMessage(button, message) {
-            alert(message);
-        }
-
-        function showErrorMessage(message) {
-            alert(message);
-        }
-
-        function navigateToProfile() {
-            document.querySelectorAll('.nav-link').forEach(nl => nl.classList.remove('active'));
-            document.querySelector('[data-section="profile"]').classList.add('active');
-            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-            document.getElementById('profile').classList.add('active');
-        }
-
-        // Profile editor
-        function initProfileEditor() {
-            const colorOptions = document.querySelectorAll('.color-option');
-            const effectCards = document.querySelectorAll('.effect-card');
-            const badges = document.querySelectorAll('.badge');
-            const inputs = document.querySelectorAll('#profile input, #profile textarea, #profile select');
-            const saveBtn = document.getElementById('save-profile');
-            const pfpUrl = document.getElementById('pfp-url');
-
-            // Color selection
-            colorOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    colorOptions.forEach(o => o.classList.remove('selected'));
-                    option.classList.add('selected');
-                    
-                    const color = option.getAttribute('data-color');
-                    document.documentElement.style.setProperty('--primary', color);
-                    document.documentElement.style.setProperty('--secondary', darkenColor(color, 20));
-                    document.documentElement.style.setProperty('--accent', darkenColor(color, 40));
-                    const {r, g, b} = getRgb(color);
-                    document.documentElement.style.setProperty('--glow', `rgba(${r}, ${g}, ${b}, 0.3)`);
-                    updatePreview();
-                });
-            });
-
-            // Effect selection
-            effectCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    card.classList.toggle('selected');
-                    updatePreview();
-                });
-            });
-
-            // Badge selection (only for admins to assign in DB)
-            badges.forEach(badge => {
-                badge.addEventListener('click', () => {
-                    if (currentUser) {
-                        db.collection('users').doc(currentUser.uid).get().then(doc => {
-                            if (doc.data().admin) {
-                                badge.classList.toggle('selected');
-                                updatePreview();
-                            }
-                        });
-                    }
-                });
-            });
-
-            // Input changes
-            inputs.forEach(input => {
-                input.addEventListener('input', updatePreview);
-            });
-
-            // PFP URL update
-            pfpUrl.addEventListener('input', () => {
-                const url = pfpUrl.value;
-                if (url) {
-                    document.querySelector('.preview-avatar').src = url;
-                } else {
-                    document.querySelector('.preview-avatar').src = '';
-                }
-                updatePreview();
-            });
-
-            // Save profile
-            saveBtn.addEventListener('click', () => {
-                if (!currentUser) {
-                    showErrorMessage('Please log in first');
-                    return;
-                }
-                
-                const data = {
-                    displayName: document.getElementById('display-name').value,
-                    bio: document.getElementById('bio').value,
-                    pfp: document.getElementById('pfp-url').value,
-                    theme: {
-                        bg: document.getElementById('bg-style').value,
-                        primary: document.querySelector('.color-option.selected')?.getAttribute('data-color') || '#ff0000'
-                    },
-                    effects: Array.from(document.querySelectorAll('.effect-card.selected')).map(card => card.getAttribute('data-effect')),
-                    links: {
-                        discord: document.getElementById('discord').value,
-                        instagram: document.getElementById('instagram').value,
-                        tiktok: document.getElementById('tiktok').value,
-                        twitch: document.getElementById('twitch').value,
-                        spotify: document.getElementById('spotify').value,
-                        custom: document.getElementById('custom').value
-                    }
-                };
-                // Only admins can modify badges
-                db.collection('users').doc(currentUser.uid).get().then(doc => {
-                    if (doc.data().admin) {
-                        data.badges = Array.from(document.querySelectorAll('.badge.selected'))
-                            .map(badge => badge.getAttribute('data-badge'));
-                    }
-                    db.collection('users').doc(currentUser.uid).update(data)
-                        .then(() => {
-                            showSuccessMessage(saveBtn, 'Profile saved!');
-                        });
-                });
-            });
-        }
-
-        function updatePreview() {
-            const preview = document.getElementById('profile-preview');
-            const displayName = document.getElementById('display-name').value || 'YourUsername';
-            const bio = document.getElementById('bio').value || 'Crafting digital shadows in the void...';
-            
-            // Update name and bio
-            preview.querySelector('.preview-name').textContent = displayName;
-            preview.querySelector('.preview-bio').textContent = bio;
-
-            // Update badges
-            const badgeContainer = preview.querySelector('.preview-badges');
-            badgeContainer.innerHTML = '';
-            document.querySelectorAll('.badge.selected').forEach(badge => {
-                const newBadge = badge.cloneNode(true);
-                newBadge.classList.remove('selected');
-                badgeContainer.appendChild(newBadge);
-            });
-
-            // Update links
-            const linksContainer = preview.querySelector('.preview-links');
-            linksContainer.innerHTML = '';
-            
-            socialInputs.forEach(social => {
-                const input = document.getElementById(social.id);
-                let value = input ? input.value.trim() : '';
-                if (value) {
-                    const link = document.createElement('a');
-                    link.className = 'preview-link';
-                    let href = value;
-                    let text = `${social.icon} ${social.name}`;
-                    if (!value.startsWith('http://') && !value.startsWith('https://')) {
-                        if (social.base) {
-                            let cleaned = social.strip ? value.replace(social.strip, '') : value;
-                            href = social.base + cleaned;
-                        } else {
-                            text = `${social.icon} ${social.name}: ${value}`;
-                            href = '#';
-                        }
-                    }
-                    if (social.id === 'custom' && !value.startsWith('http://') && !value.startsWith('https://')) {
-                        href = 'https://' + value;
-                    }
-                    link.href = href;
-                    link.textContent = text;
-                    linksContainer.appendChild(link);
-                }
-            });
-
-            // Apply effects
-            const previewName = preview.querySelector('.preview-name');
-            previewName.className = 'preview-name';
-            document.querySelectorAll('.effect-card.selected').forEach(effect => {
-                const effectName = effect.getAttribute('data-effect');
-                previewName.classList.add(effectName);
-            });
-
-            // Update background
-            const bgStyle = document.getElementById('bg-style').value;
-            const previewHeader = preview.querySelector('.preview-header');
-            if (bgStyle === 'gradient') {
-                previewHeader.style.background = `linear-gradient(45deg, var(--primary), var(--secondary))`;
-            } else {
-                previewHeader.style.background = '#000000';
             }
-        }
-
-        // Dynamic effect styles
-        const effectStyles = document.createElement('style');
-        effectStyles.textContent = `
-            .glow { text-shadow: 0 0 10px var(--primary); }
-            .pulse { animation: pulse 2s infinite; }
-            @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         `;
-        document.head.appendChild(effectStyles);
-
-        // Load profile for path alucard.lol/USERNAME
-        function loadPathProfile() {
-            const path = window.location.pathname.split('/')[1];
-            if (path) {
-                db.collection('users').where('username', '==', path).get().then((querySnapshot) => {
-                    if (!querySnapshot.empty) {
-                        const doc = querySnapshot.docs[0];
-                        const data = doc.data();
-                        if (data.banned) return;
-                        // Render profile as main content
-                        const main = document.querySelector('main');
-                        main.innerHTML = '';
-                        const profileDiv = document.createElement('div');
-                        profileDiv.className = 'profile-preview';
-                        profileDiv.style.position = 'relative';
-                        profileDiv.style.margin = 'auto';
-                        profileDiv.style.maxWidth = '400px';
-                        const primary = data.theme?.primary || '#ff0000';
-                        profileDiv.style.setProperty('--primary', primary);
-                        profileDiv.style.setProperty('--secondary', darkenColor(primary, 20));
-                        profileDiv.style.setProperty('--accent', darkenColor(primary, 40));
-                        const {r, g, b} = getRgb(primary);
-                        profileDiv.style.setProperty('--glow', `rgba(${r}, ${g}, ${b}, 0.3)`);
-                        profileDiv.innerHTML = `
-                            <div class="preview-header" style="background: ${data.theme?.bg === 'gradient' ? 'linear-gradient(45deg, var(--primary), var(--secondary))' : '#000000'};"></div>
-                            <img class="preview-avatar" src="${data.pfp || ''}" alt="Avatar">
-                            <div class="preview-content">
-                                <h2 class="preview-name ${data.effects ? data.effects.join(' ') : ''}">${data.displayName || data.username}</h2>
-                                <p class="preview-bio">${data.bio || ''}</p>
-                                <div class="preview-badges">
-                                    ${data.badges ? data.badges.map(b => `<div class="badge ${b}">${b.charAt(0).toUpperCase() + b.slice(1)}</div>`).join('') : ''}
-                                </div>
-                                <div class="preview-links">
-                                    ${Object.entries(data.links || {}).map(([key, value]) => {
-                                        if (value) {
-                                            const social = socialInputs.find(s => s.id === key);
-                                            const icon = social ? social.icon : '🔗';
-                                            const name = key.charAt(0).toUpperCase() + key.slice(1);
-                                            let href = value;
-                                            let text = `${icon} ${name}`;
-                                            if (!value.startsWith('http://') && !value.startsWith('https://')) {
-                                                if (social && social.base) {
-                                                    let cleaned = social.strip ? value.replace(social.strip, '') : value;
-                                                    href = social.base + cleaned;
-                                                } else {
-                                                    text = `${icon} ${name}: ${value}`;
-                                                    href = '#';
-                                                }
-                                            }
-                                            if (key === 'custom' && !value.startsWith('http://') && !value.startsWith('https://')) {
-                                                href = 'https://' + value;
-                                            }
-                                            return `<a href="${href}" class="preview-link">${text}</a>`;
-                                        }
-                                        return '';
-                                    }).join('')}
-                                </div>
-                            </div>
-                        `;
-                        main.appendChild(profileDiv);
-                    }
-                });
-            }
-        }
-
-        // Premium upgrade (simulated)
-        document.getElementById('upgrade-btn')?.addEventListener('click', () => {
-            alert('not impl yet');
-        });
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
