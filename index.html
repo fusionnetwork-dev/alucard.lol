@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alucard.lol</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Cinzel:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #ff3030;
+            --secondary: #8b0000;
+            --background: #0f0f0f;
+            --surface: rgba(20, 20, 20, 0.8);
+            --accent: #ff6666;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--background) 0%, #1a0a0a 50%, var(--background) 100%);
+            color: var(--primary);
+            font-family: 'Cinzel', serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 50%);
+            animation: bloodFlow 10s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+        
+        @keyframes bloodFlow {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.6; transform: scale(1.1); }
+        }
+        
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--primary);
+            z-index: 100;
+            padding: 1rem 2rem;
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Nosifer', cursive;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 48, 48, 0.3);
+            text-shadow: 0 0 10px var(--primary);
+        }
+        
+        .main-content {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Home Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-family: 'Nosifer', cursive;
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1rem;
+            text-shadow: 
+                0 0 20px var(--primary),
+                0 0 40px #ff0000,
+                0 0 80px var(--secondary);
+            animation: pulse 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { text-shadow: 0 0 20px var(--primary), 0 0 40px #ff0000, 0 0 80px var(--secondary); }
+            100% { text-shadow: 0 0 30px var(--primary), 0 0 60px #ff0000, 0 0 100px var(--secondary), 0 0 140px var(--secondary); }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #cc2222;
+            font-weight: 400;
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+            color: var(--accent);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            color: #fff;
+            text-decoration: none;
+            border: 2px solid var(--primary);
+            font-family: 'Butcherman', cursive;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 48, 48, 0.3);
+            cursor: pointer;
+        }
+        
+        .cta-button:hover {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            box-shadow: 0 0 30px rgba(255, 48, 48, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        /* Auth Section */
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--primary);
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            color: var(--primary);
+            border: none;
+            font-family: 'Butcherman', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-tab.active {
+            background: var(--primary);
+            color: #000;
+        }
+        
+        .auth-form {
+            background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4));
+            border: 1px solid var(--primary);
+            padding: 2rem;
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 48, 48, 0.4);
+            border-color: var(--accent);
+        }
+        
+        /* Profile Builder */
+        .profile-builder {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .form-section {
+            background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4));
+            border: 1px solid var(--primary);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .form-section h3 {
+            font-family: 'Butcherman', cursive;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s ease;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s ease;
+        }
+        
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .color-option:hover,
+        .color-option.selected {
+            border-color: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .fx-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .fx-option {
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .fx-option:hover,
+        .fx-option.selected {
+            background: rgba(255, 48, 48, 0.2);
+            box-shadow: 0 0 10px rgba(255, 48, 48, 0.3);
+        }
+        
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .badge {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .badge.owner { background: linear-gradient(45deg, #ffd700, #ffed4e); color: #000; }
+        .badge.developer { background: linear-gradient(45deg, #10b981, #34d399); color: #000; }
+        .badge.staff { background: linear-gradient(45deg, #3b82f6, #60a5fa); color: #fff; }
+        .badge.premium { background: linear-gradient(45deg, #8b5cf6, #a78bfa); color: #fff; }
+        .badge.beta-tester { background: linear-gradient(45deg, #f59e0b, #fbbf24); color: #000; }
+        .badge.tester { background: linear-gradient(45deg, #6b7280, #9ca3af); color: #fff; }
+        .badge.image-host { background: linear-gradient(45deg, #ec4899, #f472b6); color: #fff; }
+        .badge.custom { background: linear-gradient(45deg, #ef4444, #f87171); color: #fff; }
+        
+        .badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Enhanced profile preview */
+        .profile-preview {
+            position: sticky;
+            top: 120px;
+            background: linear-gradient(145deg, rgba(25, 25, 25, 0.95), rgba(45, 15, 15, 0.8));
+            border: 2px solid var(--primary);
+            padding: 0;
+            max-width: 400px;
+            margin: 2rem auto;
+            text-align: center;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.8),
+                0 0 30px rgba(255, 48, 48, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.9),
+                0 0 40px rgba(255, 48, 48, 0.3);
+        }
+        
+        .preview-banner {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: bannerShine 4s ease-in-out infinite;
+        }
+        
+        @keyframes bannerShine {
+            0%, 100% { left: -100%; }
+            50% { left: 100%; }
+        }
+        
+        .preview-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            margin: -45px auto 1.5rem;
+            border: 4px solid var(--primary);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        }
+        
+        .preview-username {
+            font-family: 'Butcherman', cursive;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .uid-tooltip {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        
+        .preview-username:hover .uid-tooltip {
+            opacity: 1;
+        }
+        
+        .preview-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            padding: 0 1rem;
+        }
+        
+        .preview-badges .badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+        }
+        
+        .preview-bio {
+            color: #cc9999;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            padding: 0 1rem;
+        }
+        
+        .preview-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 1rem 1rem;
+        }
+        
+        .preview-link {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 48, 48, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .preview-link:hover {
+            background: rgba(255, 48, 48, 0.2);
+            box-shadow: 0 0 10px rgba(255, 48, 48, 0.3);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .profile-builder {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .profile-preview {
+                position: relative;
+                top: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .hero {
+                padding: 2rem 1rem;
+            }
+            
+            .profile-builder {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="logo">alucard.lol</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-section="home">Home</a>
+                <a href="#" class="nav-link" data-section="auth">Login / Sign Up</a>
+                <a href="#" class="nav-link" data-section="premium">Premium</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="main-content">
+        <!-- Home Section -->
+        <section class="section active" id="home">
+            <div class="hero">
+                <h1 class="hero-title">alucard.lol</h1>
+                <p class="hero-subtitle">the best to do it.</p>
+                <p class="hero-description">
+                    Create your personalized dark profile. Express your gothic aesthetic with custom themes, 
+                    effects, and styling. Join the shadows and make your digital presence unforgettable.
+                </p>
+                <a href="#" class="cta-button" data-section="auth">Enter the Darkness</a>
+            </div>
+        </section>
+        
+        <!-- Auth Section -->
+       <section class="section" id="auth">
+    <div class="auth-container">
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login">Login</button>
+            <button class="auth-tab" data-tab="signup">Sign Up</button>
+        </div>
+        
+        <div class="auth-form active" id="login-form">
+            <h2 style="text-align: center; font-family: 'Butcherman', cursive; margin-bottom: 2rem; color: var(--primary);">Welcome Back</h2>
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-input" id="login-username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="login-password" placeholder="Enter password">
+            </div>
+            <div class="form-group" id="login-error" style="color: #ff6666; text-align: center; display: none;"></div>
+            <button class="cta-button" style="width: 100%; margin-top: 1rem;" id="login-btn">Login</button>
+        </div>
+        
+        <div class="auth-form" id="signup-form">
+            <h2 style="text-align: center; font-family: 'Butcherman', cursive; margin-bottom: 2rem; color: var(--primary);">Join the Darkness</h2>
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-input" id="signup-username" placeholder="Choose username">
+                <div class="form-error" id="username-error" style="color: #ff6666; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="signup-email" placeholder="Enter email">
+                <div class="form-error" id="email-error" style="color: #ff6666; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="signup-password" placeholder="Create password">
+                <div class="form-error" id="password-error" style="color: #ff6666; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" class="form-input" id="signup-confirm-password" placeholder="Confirm password">
+                <div class="form-error" id="confirm-password-error" style="color: #ff6666; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
+            </div>
+            <button class="cta-button" style="width: 100%; margin-top: 1rem;" id="signup-btn">Create Account</button>
+        </div>
+    </div>
+</section>
+        
+        <!-- Profile Builder (shown after signup/login) -->
+        <section class="section" id="profile">
+            <div class="profile-builder">
+                <div>
+                    <div class="form-section">
+                        <h3>🦇 Basic Information</h3>
+                        <div class="form-group">
+                            <label class="form-label">Display Name</label>
+                            <input type="text" class="form-input" id="displayName" placeholder="Your Dark Title">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Bio</label>
+                            <textarea class="form-textarea" id="bio" placeholder="Embrace the darkness..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>🎨 Theme Customization</h3>
+                        <div class="form-group">
+                            <label class="form-label">Primary Color</label>
+                            <div class="color-picker">
+                                <div class="color-option selected" style="background: #ff3030" data-color="#ff3030"></div>
+                                <div class="color-option" style="background: #8b5cf6" data-color="#8b5cf6"></div>
+                                <div class="color-option" style="background: #10b981" data-color="#10b981"></div>
+                                <div class="color-option" style="background: #f59e0b" data-color="#f59e0b"></div>
+                                <div class="color-option" style="background: #ef4444" data-color="#ef4444"></div>
+                                <div class="color-option" style="background: #3b82f6" data-color="#3b82f6"></div>
+                                <div class="color-option" style="background: #ec4899" data-color="#ec4899"></div>
+                                <div class="color-option" style="background: #6b7280" data-color="#6b7280"></div>
+                                <div class="color-option" style="background: #8b0000" data-color="#8b0000"></div>
+                                <div class="color-option" style="background: #1f2937" data-color="#1f2937"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Background Style</label>
+                            <select class="form-select" id="bgStyle">
+                                <option value="gradient">Dark Gradient</option>
+                                <option value="particles">Floating Particles</option>
+                                <option value="matrix">Matrix Rain</option>
+                                <option value="blood">Blood Drops</option>
+                                <option value="smoke">Smoke Effect</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>✨ Effects & Animation</h3>
+                        <div class="fx-grid">
+                            <div class="fx-option" data-fx="glow">Text Glow</div>
+                            <div class="fx-option" data-fx="pulse">Pulse Effect</div>
+                            <div class="fx-option" data-fx="shake">Hover Shake</div>
+                            <div class="fx-option" data-fx="fade">Fade In</div>
+                            <div class="fx-option" data-fx="typewriter">Typewriter</div>
+                            <div class="fx-option" data-fx="glitch">Glitch Text</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>🏅 Badges</h3>
+                        <div class="badges-grid">
+                            <div class="badge owner">Owner</div>
+                            <div class="badge developer">Developer</div>
+                            <div class="badge staff">Staff</div>
+                            <div class="badge premium">Premium</div>
+                            <div class="badge beta-tester">Beta Tester</div>
+                            <div class="badge tester">Tester</div>
+                            <div class="badge image-host">Image Host</div>
+                            <div class="badge custom">Custom Role</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>🔗 Social Links</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label">Discord</label>
+                                <input type="text" class="form-input" id="discord" placeholder="username#1234">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Instagram</label>
+                                <input type="text" class="form-input" id="instagram" placeholder="@username">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">TikTok</label>
+                                <input type="text" class="form-input" id="tiktok" placeholder="@username">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Twitch</label>
+                                <input type="text" class="form-input" id="twitch" placeholder="username">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Spotify</label>
+                                <input type="text" class="form-input" id="spotify" placeholder="Profile URL">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Custom Link</label>
+                                <input type="text" class="form-input" id="customLink" placeholder="https://...">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="cta-button" id="saveProfile">Save Profile</button>
+                    </div>
+                </div>
+                
+                <div class="profile-preview">
+                    <div class="preview-banner"></div>
+                    <div class="preview-avatar">🦇</div>
+                    <div class="preview-username">
+                        your_username
+                        <div class="uid-tooltip">UID: #1</div>
+                    </div>
+                    <div class="preview-badges">
+                        <div class="badge premium">Premium</div>
+                        <div class="badge beta-tester">Beta Tester</div>
+                    </div>
+                    <div class="preview-bio">Embrace the darkness...</div>
+                    <div class="preview-links">
+                        <a href="#" class="preview-link">🎮 Discord</a>
+                        <a href="#" class="preview-link">📸 Instagram</a>
+                        <a href="#" class="preview-link">🎵 TikTok</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Premium Section -->
+        <section class="section" id="premium">
+            <div style="text-align: center; padding: 4rem 2rem; max-width: 1000px; margin: 0 auto;">
+                <h2 style="font-family: 'Butcherman', cursive; font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary);">Premium Darkness</h2>
+                <p style="color: #cc9999; font-size: 1.2rem; margin-bottom: 3rem;">Unleash the full power of customization</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                    <div style="background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 1px solid var(--primary); padding: 2rem; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">Analytics</h3>
+                        <p style="color: #cc9999;">Track profile views, link clicks, and visitor data</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 1px solid var(--primary); padding: 2rem; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎨</div>
+                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">Custom CSS</h3>
+                        <p style="color: #cc9999;">Add your own CSS for unlimited customization</p>
+                    </div>
+
+                    <div style="background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 1px solid var(--primary); padding: 2rem; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">👑</div>
+                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">Custom Domains</h3>
+                        <p style="color: #cc9999;">Get your own custom domain like yourname.alucard.lol</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 1px solid var(--primary); padding: 2rem; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔮</div>
+                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">Advanced FX</h3>
+                        <p style="color: #cc9999;">Premium animations, particle effects, and custom cursors</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 3rem;">
+                    <div style="display: inline-block; padding: 2rem; background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 2px solid var(--primary);">
+                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">$6.66/month</h3>
+                        <p style="color: #cc9999; margin-bottom: 2rem;">Join the elite darkness</p>
+                        <button class="cta-button">Ascend to Premium</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        
+  let users = JSON.parse(localStorage.getItem('users')) || {};
+let userCount = Object.keys(users).length;
+let currentUser = null;
+       
+        
+        // Navigation
+        document.querySelectorAll('.nav-link, .cta-button[data-section]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetSection = e.target.getAttribute('data-section');
+                
+                document.querySelectorAll('.nav-link').forEach(nl => nl.classList.remove('active'));
+                document.querySelectorAll('.nav-link[data-section="' + targetSection + '"]').forEach(nl => nl.classList.add('active'));
+                
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                document.getElementById(targetSection).classList.add('active');
+            });
+        });
+        
+        // Auth tabs
+       document.querySelectorAll('.auth-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        const tabType = tab.getAttribute('data-tab');
+        
+        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+        document.getElementById(tabType + '-form').classList.add('active');
+        
+        // Clear error messages
+        document.querySelectorAll('.form-error').forEach(error => error.style.display = 'none');
+        document.getElementById('login-error').style.display = 'none';
+    });
+});
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+        
+        // Sign up functionality
+        document.getElementById('signup-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    // Clear previous error messages
+    document.querySelectorAll('.form-error').forEach(error => error.style.display = 'none');
+    
+    const username = document.getElementById('signup-username').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+    const password = document.getElementById('signup-password').value;
+    const confirmPassword = document.getElementById('signup-confirm-password').value;
+    
+    let isValid = true;
+    
+    // Username validation
+    if (!username || username.length < 3) {
+        document.getElementById('username-error').textContent = 'Username must be at least 3 characters long';
+        document.getElementById('username-error').style.display = 'block';
+        isValid = false;
+    } else if (users[username]) {
+        document.getElementById('username-error').textContent = 'Username already exists';
+        document.getElementById('username-error').style.display = 'block';
+        isValid = false;
+    }
+    
+    // Email validation
+    if (!isValidEmail(email)) {
+        document.getElementById('email-error').textContent = 'Please enter a valid email address';
+        document.getElementById('email-error').style.display = 'block';
+        isValid = false;
+    }
+    
+    // Password validation
+    if (password.length < 6) {
+        document.getElementById('password-error').textContent = 'Password must be at least 6 characters long';
+        document.getElementById('password-error').style.display = 'block';
+        isValid = false;
+    }
+    
+    // Confirm password validation
+    if (password !== confirmPassword) {
+        document.getElementById('confirm-password-error').textContent = 'Passwords do not match';
+        document.getElementById('confirm-password-error').style.display = 'block';
+        isValid = false;
+    }
+    
+    if (!isValid) return;
+    
+    // Create new user
+    userCount++;
+    currentUser = {
+        username: username,
+        email: email,
+        uid: userCount,
+        displayName: username,
+        bio: 'New to the darkness...',
+        badges: ['beta-tester'],
+        theme: {
+            primaryColor: '#ff3030',
+            bgStyle: 'gradient'
+        }
+    };
+    
+    // Store user data
+    users[username] = {
+        ...currentUser,
+        password: password // In production, password should be hashed
+    };
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    // Show success message
+    const btn = e.target;
+    const originalText = btn.textContent;
+    btn.textContent = 'Account Created! 🦇';
+    btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
+    
+    setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+        
+        // Navigate to profile section
+        document.querySelectorAll('.nav-link').forEach(nl => nl.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+        document.getElementById('profile').classList.add('active');
+        
+        // Update preview with user info
+        updatePreview();
+    }, 1500);
+});
+        
+        // Color picker
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+                option.classList.add('selected');
+                
+                const color = option.getAttribute('data-color');
+                document.documentElement.style.setProperty('--primary', color);
+                
+                // Update preview
+                updatePreview();
+            });
+        });
+        
+        // FX options
+        document.querySelectorAll('.fx-option').forEach(fx => {
+            fx.addEventListener('click', () => {
+                fx.classList.toggle('selected');
+                const fxType = fx.getAttribute('data-fx');
+                
+                // Apply effect to preview
+                const previewUsername = document.querySelector('.preview-username');
+                previewUsername.classList.toggle(fxType);
+                
+                // Add CSS classes for effects
+                if (!document.getElementById('fx-styles')) {
+                    const style = document.createElement('style');
+                    style.id = 'fx-styles';
+                    style.textContent = `
+                        .glow { text-shadow: 0 0 20px currentColor !important; }
+                        .pulse { animation: pulseEffect 2s infinite; }
+                        .shake:hover { animation: shakeEffect 0.5s; }
+                        .fade { animation: fadeInEffect 2s; }
+                        .typewriter { overflow: hidden; border-right: 2px solid; animation: typewriterEffect 3s steps(20, end), blinkCursor 0.5s step-end infinite alternate; }
+                        .glitch { animation: glitchEffect 2s infinite; }
+                        
+                        @keyframes pulseEffect { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+                        @keyframes shakeEffect { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+                        @keyframes fadeInEffect { from { opacity: 0; } to { opacity: 1; } }
+                        @keyframes typewriterEffect { from { width: 0; } to { width: 100%; } }
+                        @keyframes blinkCursor { from { border-color: transparent; } to { border-color: currentColor; } }
+                        @keyframes glitchEffect { 0%, 100% { transform: translate(0); filter: hue-rotate(0deg); } 20% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); } 40% { transform: translate(-2px, -2px); filter: hue-rotate(180deg); } 60% { transform: translate(2px, 2px); filter: hue-rotate(270deg); } 80% { transform: translate(2px, -2px); filter: hue-rotate(360deg); } }
+                    `;
+                    document.head.appendChild(style);
+                }
+            });
+        });
+        
+        // Badge selection (only for demo, in real app would be role-based)
+        document.querySelectorAll('.badge').forEach(badge => {
+            badge.addEventListener('click', () => {
+                badge.classList.toggle('selected');
+                updatePreview();
+            });
+        });
+        
+        // Real-time preview updates
+        function updatePreview() {
+            if (!currentUser) return;
+            
+            const displayName = document.getElementById('displayName').value || currentUser.username;
+            const bio = document.getElementById('bio').value || 'Embrace the darkness...';
+            
+            document.querySelector('.preview-username').firstChild.textContent = displayName;
+            document.querySelector('.uid-tooltip').textContent = `UID: #${currentUser.uid}`;
+            document.querySelector('.preview-bio').textContent = bio;
+            
+            // Update badges
+            const badgesContainer = document.querySelector('.preview-badges');
+            badgesContainer.innerHTML = '';
+            document.querySelectorAll('.badge.selected').forEach(badge => {
+                const newBadge = badge.cloneNode(true);
+                newBadge.classList.remove('selected');
+                badgesContainer.appendChild(newBadge);
+            });
+            
+            // Update links
+            const linksContainer = document.querySelector('.preview-links');
+            linksContainer.innerHTML = '';
+            
+            const socialInputs = [
+                { id: 'discord', icon: '🎮', name: 'Discord' },
+                { id: 'instagram', icon: '📸', name: 'Instagram' },
+                { id: 'tiktok', icon: '🎵', name: 'TikTok' },
+                { id: 'twitch', icon: '🎬', name: 'Twitch' },
+                { id: 'spotify', icon: '🎧', name: 'Spotify' },
+                { id: 'customLink', icon: '🔗', name: 'Custom' }
+            ];
+            
+            socialInputs.forEach(social => {
+                const element = document.getElementById(social.id);
+                if (element && element.value) {
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.className = 'preview-link';
+                    link.textContent = `${social.icon} ${social.name}`;
+                    linksContainer.appendChild(link);
+                }
+            });
+        }
+        
+        // Add event listeners for real-time updates
+        ['displayName', 'bio', 'discord', 'instagram', 'tiktok', 'twitch', 'spotify', 'customLink'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', updatePreview);
+            }
+        });
+        
+        // Background style changes
+        document.getElementById('bgStyle').addEventListener('change', (e) => {
+            const style = e.target.value;
+            const banner = document.querySelector('.preview-banner');
+            
+            switch(style) {
+                case 'gradient':
+                    banner.style.background = 'linear-gradient(45deg, var(--secondary), var(--primary))';
+                    break;
+                case 'particles':
+                    banner.style.background = 'radial-gradient(circle, var(--primary) 1px, transparent 1px)';
+                    banner.style.backgroundSize = '20px 20px';
+                    break;
+                case 'matrix':
+                    banner.style.background = 'repeating-linear-gradient(90deg, var(--primary) 0px, var(--primary) 1px, transparent 1px, transparent 10px)';
+                    break;
+                case 'blood':
+                    banner.style.background = 'radial-gradient(ellipse at center, var(--primary) 10%, var(--secondary) 70%)';
+                    break;
+                case 'smoke':
+                    banner.style.background = 'linear-gradient(45deg, rgba(139, 0, 0, 0.8), rgba(255, 48, 48, 0.4))';
+                    break;
+            }
+        });
+        
+        // Save profile
+        document.getElementById('saveProfile').addEventListener('click', () => {
+            if (!currentUser) return;
+            
+            const btn = document.getElementById('saveProfile');
+            const originalText = btn.textContent;
+            btn.textContent = 'Profile Saved! 🦇';
+            btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+                
+                alert(`Profile saved! View at: alucard.lol/${currentUser.username} (UID: #${currentUser.uid})`);
+            }, 1500);
+        });
+        
+        // Particle system
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '3px';
+            particle.style.height = '3px';
+            particle.style.background = 'var(--primary)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '1';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = '100vh';
+            particle.style.opacity = '0.7';
+            particle.style.animation = `floatUp ${Math.random() * 10 + 15}s linear forwards`;
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 25000);
+        }
+        
+        // Add particle animation
+        const particleStyle = document.createElement('style');
+        particleStyle.textContent = `
+            @keyframes floatUp {
+                0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+                10% { opacity: 0.7; }
+                90% { opacity: 0.7; }
+                100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(particleStyle);
+        
+        setInterval(createParticle, 800);
+        for (let i = 0; i < 15; i++) setTimeout(createParticle, i * 200);
+        
+        // Initialize default badges for preview
+        setTimeout(() => {
+            document.querySelectorAll('.badge')[3].classList.add('selected'); // Premium
+            document.querySelectorAll('.badge')[4].classList.add('selected'); // Beta Tester
+            updatePreview();
+        }, 500);
+        
+        // Login functionality
+        document.getElementById('login-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value;
+    const errorElement = document.getElementById('login-error');
+    
+    // Clear previous error
+    errorElement.style.display = 'none';
+    
+    // Validate inputs
+    if (!username || !password) {
+        errorElement.textContent = 'Please enter both username and password';
+        errorElement.style.display = 'block';
+        return;
+    }
+    
+    // Check credentials
+    if (!users[username] || users[username].password !== password) {
+        errorElement.textContent = 'Invalid username or password';
+        errorElement.style.display = 'block';
+        return;
+    }
+    
+    // Successful login
+    currentUser = { ...users[username] };
+    
+    const btn = e.target;
+    const originalText = btn.textContent;
+    btn.textContent = 'Welcome Back! 🦇';
+    btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
+    
+    setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+        
+        // Navigate to profile section
+        document.querySelectorAll('.nav-link').forEach(nl => nl.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+        document.getElementById('profile').classList.add('active');
+        
+        updatePreview();
+    }, 1500);
+});
+        
+        // Enhanced particle effects based on theme
+        function createThemedParticle() {
+            const particle = document.createElement('div');
+            const size = Math.random() * 3 + 2;
+            
+            particle.style.cssText = `
+                position: fixed;
+                width: ${size}px;
+                height: ${size}px;
+                background: var(--primary);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 1;
+                left: ${Math.random() * 100}%;
+                top: 100vh;
+                opacity: ${Math.random() * 0.7 + 0.3};
+                box-shadow: 0 0 10px var(--primary);
+                animation: floatUp ${Math.random() * 8 + 12}s linear forwards;
+            `;
+            
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 20000);
+        }
+        
+        // Create themed particles more frequently
+        setInterval(createThemedParticle, 600);
+        for (let i = 0; i < 20; i++) {
+            setTimeout(createThemedParticle, i * 150);
+        }
+        
+        // Add interactive cursor effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.cssText = `
+                position: fixed;
+                left: ${e.clientX}px;
+                top: ${e.clientY}px;
+                width: 1px;
+                height: 1px;
+                background: var(--primary);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                opacity: 0.5;
+                animation: cursorFade 1s ease-out forwards;
+            `;
+            
+            document.body.appendChild(cursor);
+            setTimeout(() => cursor.remove(), 1000);
+        });
+        
+        // Add cursor fade animation
+        if (!document.getElementById('cursor-styles')) {
+            const cursorStyle = document.createElement('style');
+            cursorStyle.id = 'cursor-styles';
+            cursorStyle.textContent = `
+                @keyframes cursorFade {
+                    0% { opacity: 0.5; transform: scale(1); }
+                    50% { opacity: 0.8; transform: scale(3); }
+                    100% { opacity: 0; transform: scale(5); }
+                }
+            `;
+            document.head.appendChild(cursorStyle);
+        }
+        
+        // Enhanced hover effects for all interactive elements
+        document.querySelectorAll('.cta-button, .nav-link, .preview-link').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = element.classList.contains('cta-button') ? 'translateY(-3px) scale(1.02)' : 'translateY(-1px)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+        
+        // Form validation with better UX
+        document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.style.borderColor = 'var(--accent)';
+                input.style.boxShadow = '0 0 20px rgba(255, 48, 48, 0.4)';
+            });
+            
+            input.addEventListener('blur', () => {
+                input.style.borderColor = 'var(--primary)';
+                input.style.boxShadow = '0 0 15px rgba(255, 48, 48, 0.2)';
+            });
+        });
+        
+        // Premium upgrade simulation
+        document.querySelector('#premium .cta-button').addEventListener('click', () => {
+            const btn = document.querySelector('#premium .cta-button');
+            const originalText = btn.textContent;
+            
+            btn.textContent = 'Processing... 🦇';
+            btn.style.background = 'linear-gradient(45deg, #8b5cf6, #a78bfa)';
+            
+            setTimeout(() => {
+                btn.textContent = 'Welcome to Premium! 👑';
+                btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
+                
+                if (currentUser) {
+                    currentUser.badges.push('premium');
+                    updatePreview();
+                }
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 3000);
+            }, 2000);
+        });
+        
+        // Add some Easter eggs
+        let konami = [];
+        const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // Up Up Down Down Left Right Left Right B A
+        
+        document.addEventListener('keydown', (e) => {
+            konami.push(e.keyCode);
+            if (konami.length > 10) konami.shift();
+            
+            if (konami.join(',') === konamiCode.join(',')) {
+                // Easter egg activated
+                document.body.style.filter = 'hue-rotate(180deg)';
+                alert('🦇 Konami Code Activated! You found the secret! 🦇');
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 5000);
+                konami = [];
+            }
+        });
+        
+        // Initialize everything
+        updatePreview();
+        
+        // Add loading effect for the whole page
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.8s ease-in-out';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // Smooth section transitions
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        document.querySelectorAll('.form-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.6s ease-out';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
