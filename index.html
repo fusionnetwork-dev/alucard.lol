@@ -3,33 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>alucard.lol</title>
+    <title>Alucard.lol - Dive into the Shadows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&family=Nosifer&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Cinzel:wght@400;600&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         :root {
-            --primary: #ff3030;
-            --secondary: #8b0000;
-            --background: #0f0f0f;
-            --surface: rgba(20, 20, 20, 0.8);
-            --accent: #ff6666;
+            --main-red: #c8102e;
+            --deep-black: #000;
+            --shadow-bg: #111;
+            --glow-accent: #ff4500;
+            --surface-dim: rgba(17, 17, 17, 0.85);
         }
-        
+
         body {
-            background: linear-gradient(135deg, var(--background) 0%, #1a0a0a 50%, var(--background) 100%);
-            color: var(--primary);
-            font-family: 'Cinzel', serif;
+            background: linear-gradient(145deg, var(--shadow-bg) 0%, #080808 50%, var(--shadow-bg) 100%);
+            color: var(--main-red);
+            font-family: 'Roboto', sans-serif;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
         }
-        
+
         body::before {
             content: '';
             position: fixed;
@@ -37,974 +36,946 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 50%);
-            animation: bloodFlow 10s ease-in-out infinite alternate;
+            background: radial-gradient(circle at 30% 70%, rgba(200, 16, 46, 0.15) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 30%, rgba(139, 0, 0, 0.15) 0%, transparent 60%);
+            animation: shadowPulse 12s ease-in-out infinite alternate;
             z-index: -1;
         }
-        
-        @keyframes bloodFlow {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 0.6; transform: scale(1.1); }
+
+        @keyframes shadowPulse {
+            0% { opacity: 0.4; transform: scale(1); }
+            100% { opacity: 0.7; transform: scale(1.05); }
         }
-        
-        .nav {
+
+        header.nav-bar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--primary);
-            z-index: 100;
-            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--main-red);
+            z-index: 99;
+            padding: 1rem 1.5rem;
         }
-        
-        .nav-content {
-            max-width: 1200px;
+
+        .nav-wrapper {
+            max-width: 1100px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
-        .logo {
+
+        .site-logo {
             font-family: 'Nosifer', cursive;
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.6rem;
+            text-shadow: 0 0 8px var(--main-red);
         }
-        
-        .nav-links {
+
+        .nav-menu {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
         }
-        
-        .nav-link {
-            color: var(--primary);
+
+        .menu-item {
+            color: var(--main-red);
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            padding: 0.4rem 0.8rem;
             border: 1px solid transparent;
         }
-        
-        .nav-link:hover,
-        .nav-link.active {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 48, 48, 0.3);
-            text-shadow: 0 0 10px var(--primary);
+
+        .menu-item:hover, .menu-item.active {
+            border-color: var(--main-red);
+            box-shadow: 0 0 12px rgba(200, 16, 46, 0.25);
+            text-shadow: 0 0 8px var(--main-red);
         }
-        
-        .main-content {
-            padding-top: 100px;
+
+        main.content-area {
+            padding-top: 80px;
             min-height: 100vh;
         }
-        
-        .section {
+
+        .page-section {
             display: none;
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeEntry 0.6s ease-in-out;
         }
-        
-        .section.active {
+
+        .page-section.active {
             display: block;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+
+        @keyframes fadeEntry {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* Home Section */
-        .hero {
+
+        /* Welcome Section */
+        .welcome-hero {
             text-align: center;
-            padding: 4rem 2rem;
-            max-width: 1200px;
+            padding: 3rem 1.5rem;
+            max-width: 1100px;
             margin: 0 auto;
         }
-        
-        .hero-title {
-            font-family: 'Nosifer', cursive;
-            font-size: clamp(3rem, 8vw, 6rem);
-            margin-bottom: 1rem;
-            text-shadow: 
-                0 0 20px var(--primary),
-                0 0 40px #ff0000,
-                0 0 80px var(--secondary);
-            animation: pulse 3s ease-in-out infinite alternate;
+
+        .hero-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            margin-bottom: 0.8rem;
+            text-shadow: 0 0 15px var(--main-red), 0 0 30px #b00000;
+            animation: glowBeat 2.5s ease-in-out infinite alternate;
         }
-        
-        @keyframes pulse {
-            0% { text-shadow: 0 0 20px var(--primary), 0 0 40px #ff0000, 0 0 80px var(--secondary); }
-            100% { text-shadow: 0 0 30px var(--primary), 0 0 60px #ff0000, 0 0 100px var(--secondary), 0 0 140px var(--secondary); }
+
+        @keyframes glowBeat {
+            0% { text-shadow: 0 0 15px var(--main-red), 0 0 30px #b00000; }
+            100% { text-shadow: 0 0 25px var(--main-red), 0 0 50px #b00000, 0 0 70px #800000; }
         }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            color: #cc2222;
-            font-weight: 400;
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #bb1e1e;
+            font-weight: 300;
         }
-        
-        .hero-description {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 3rem;
-            line-height: 1.6;
-            color: var(--accent);
+
+        .hero-text {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.5;
+            color: var(--glow-accent);
         }
-        
-        .cta-button {
+
+        .action-btn {
             display: inline-block;
-            padding: 1rem 3rem;
-            background: linear-gradient(45deg, var(--secondary), var(--primary));
-            color: #fff;
+            padding: 0.8rem 2.5rem;
+            background: linear-gradient(45deg, var(--deep-black), var(--main-red));
+            color: #eee;
             text-decoration: none;
-            border: 2px solid var(--primary);
-            font-family: 'Butcherman', cursive;
-            font-size: 1.2rem;
+            border: 2px solid var(--main-red);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
             font-weight: bold;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 48, 48, 0.3);
+            box-shadow: 0 0 15px rgba(200, 16, 46, 0.25);
             cursor: pointer;
         }
-        
-        .cta-button:hover {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            box-shadow: 0 0 30px rgba(255, 48, 48, 0.6);
+
+        .action-btn:hover {
+            background: linear-gradient(45deg, var(--main-red), var(--glow-accent));
+            box-shadow: 0 0 25px rgba(200, 16, 46, 0.5);
             transform: translateY(-2px);
         }
-        
-        /* Auth Section */
-        .auth-container {
-            max-width: 500px;
-            margin: 2rem auto;
-            padding: 2rem;
+
+        /* Login/Signup Area */
+        .auth-box {
+            max-width: 450px;
+            margin: 1.5rem auto;
+            padding: 1.5rem;
         }
-        
-        .auth-tabs {
+
+        .auth-switch {
             display: flex;
-            margin-bottom: 2rem;
-            background: var(--surface);
-            border: 1px solid var(--primary);
+            margin-bottom: 1.5rem;
+            background: var(--surface-dim);
+            border: 1px solid var(--main-red);
         }
-        
-        .auth-tab {
+
+        .switch-tab {
             flex: 1;
-            padding: 1rem;
+            padding: 0.8rem;
             background: transparent;
-            color: var(--primary);
+            color: var(--main-red);
             border: none;
-            font-family: 'Butcherman', cursive;
+            font-family: 'Playfair Display', serif;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
-        
-        .auth-tab.active {
-            background: var(--primary);
-            color: #000;
+
+        .switch-tab.active {
+            background: var(--main-red);
+            color: #111;
         }
-        
-        .auth-form {
-            background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4));
-            border: 1px solid var(--primary);
-            padding: 2rem;
+
+        .auth-panel {
+            background: linear-gradient(135deg, var(--surface-dim), rgba(30, 8, 8, 0.35));
+            border: 1px solid var(--main-red);
+            padding: 1.5rem;
             display: none;
         }
-        
-        .auth-form.active {
+
+        .auth-panel.active {
             display: block;
         }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
+
+        .input-group {
+            margin-bottom: 1.2rem;
         }
-        
-        .form-label {
+
+        .input-label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: var(--accent);
-            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--glow-accent);
+            font-weight: 500;
         }
-        
-        .form-input {
+
+        .input-field {
             width: 100%;
-            padding: 0.75rem;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            font-family: 'Cinzel', serif;
-            transition: all 0.3s ease;
+            padding: 0.6rem;
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid var(--main-red);
+            color: var(--main-red);
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.25s ease;
         }
-        
-        .form-input:focus {
+
+        .input-field:focus {
             outline: none;
-            box-shadow: 0 0 15px rgba(255, 48, 48, 0.4);
-            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(200, 16, 46, 0.35);
+            border-color: var(--glow-accent);
         }
-        
-        /* Profile Builder */
-        .profile-builder {
-            max-width: 1200px;
+
+        /* Profile Editor */
+        .profile-editor {
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1.5rem;
             display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 2rem;
+            grid-template-columns: 1fr 350px;
+            gap: 1.5rem;
             align-items: start;
         }
-        
-        .form-section {
-            background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4));
-            border: 1px solid var(--primary);
-            padding: 2rem;
-            margin-bottom: 2rem;
+
+        .edit-section {
+            background: linear-gradient(135deg, var(--surface-dim), rgba(30, 8, 8, 0.35));
+            border: 1px solid var(--main-red);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             position: relative;
         }
-        
-        .form-section h3 {
-            font-family: 'Butcherman', cursive;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
+
+        .edit-section h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--main-red);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
         }
-        
-        .form-textarea {
+
+        .text-area {
             width: 100%;
-            padding: 0.75rem;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            font-family: 'Cinzel', serif;
-            transition: all 0.3s ease;
+            padding: 0.6rem;
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid var(--main-red);
+            color: var(--main-red);
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.25s ease;
             resize: vertical;
-            min-height: 100px;
+            min-height: 80px;
         }
-        
-        .form-select {
+
+        .select-box {
             width: 100%;
-            padding: 0.75rem;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            font-family: 'Cinzel', serif;
-            transition: all 0.3s ease;
+            padding: 0.6rem;
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid var(--main-red);
+            color: var(--main-red);
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.25s ease;
         }
-        
-        .color-picker {
+
+        .color-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 0.5rem;
-            margin-top: 0.5rem;
+            gap: 0.4rem;
+            margin-top: 0.4rem;
         }
-        
-        .color-option {
-            width: 40px;
-            height: 40px;
+
+        .color-choice {
+            width: 35px;
+            height: 35px;
             border: 2px solid transparent;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
-        
-        .color-option:hover,
-        .color-option.selected {
-            border-color: #fff;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+
+        .color-choice:hover, .color-choice.selected {
+            border-color: #ddd;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
         }
-        
-        .fx-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .fx-option {
-            padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-        
-        .fx-option:hover,
-        .fx-option.selected {
-            background: rgba(255, 48, 48, 0.2);
-            box-shadow: 0 0 10px rgba(255, 48, 48, 0.3);
-        }
-        
-        .badges-grid {
+
+        .effects-layout {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 0.5rem;
-            margin-top: 1rem;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
         }
-        
-        .badge {
-            padding: 0.3rem 0.6rem;
-            font-size: 0.8rem;
-            border-radius: 15px;
+
+        .effect-item {
+            padding: 0.4rem;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--main-red);
+            color: var(--main-red);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .effect-item:hover, .effect-item.selected {
+            background: rgba(200, 16, 46, 0.15);
+            box-shadow: 0 0 8px rgba(200, 16, 46, 0.25);
+        }
+
+        .badges-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 0.4rem;
+            margin-top: 0.8rem;
+        }
+
+        .badge-tag {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 12px;
             text-align: center;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
-        
-        .badge.owner { background: linear-gradient(45deg, #ffd700, #ffed4e); color: #000; }
-        .badge.developer { background: linear-gradient(45deg, #10b981, #34d399); color: #000; }
-        .badge.staff { background: linear-gradient(45deg, #3b82f6, #60a5fa); color: #fff; }
-        .badge.premium { background: linear-gradient(45deg, #8b5cf6, #a78bfa); color: #fff; }
-        .badge.beta-tester { background: linear-gradient(45deg, #f59e0b, #fbbf24); color: #000; }
-        .badge.tester { background: linear-gradient(45deg, #6b7280, #9ca3af); color: #fff; }
-        .badge.image-host { background: linear-gradient(45deg, #ec4899, #f472b6); color: #fff; }
-        .badge.custom { background: linear-gradient(45deg, #ef4444, #f87171); color: #fff; }
-        
-        .badge:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+
+        .badge-tag.owner { background: linear-gradient(45deg, #ffd700, #ffed4e); color: #000; }
+        .badge-tag.dev { background: linear-gradient(45deg, #10b981, #34d399); color: #000; }
+        .badge-tag.staff { background: linear-gradient(45deg, #3b82f6, #60a5fa); color: #fff; }
+        .badge-tag.premium { background: linear-gradient(45deg, #8b5cf6, #a78bfa); color: #fff; }
+        .badge-tag.beta { background: linear-gradient(45deg, #f59e0b, #fbbf24); color: #000; }
+        .badge-tag.tester { background: linear-gradient(45deg, #6b7280, #9ca3af); color: #fff; }
+        .badge-tag.imagehost { background: linear-gradient(45deg, #ec4899, #f472b6); color: #fff; }
+        .badge-tag.custom { background: linear-gradient(45deg, #ef4444, #f87171); color: #fff; }
+
+        .badge-tag:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
         }
-        
-        /* Enhanced profile preview */
-        .profile-preview {
+
+        /* Profile View */
+        .profile-view {
             position: sticky;
-            top: 120px;
-            background: linear-gradient(145deg, rgba(25, 25, 25, 0.95), rgba(45, 15, 15, 0.8));
-            border: 2px solid var(--primary);
+            top: 100px;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.92), rgba(40, 10, 10, 0.75));
+            border: 2px solid var(--main-red);
             padding: 0;
-            max-width: 400px;
-            margin: 2rem auto;
+            max-width: 350px;
+            margin: 1.5rem auto;
             text-align: center;
             overflow: hidden;
-            box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.8),
-                0 0 30px rgba(255, 48, 48, 0.2);
-            transition: all 0.3s ease;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(200, 16, 46, 0.15);
+            transition: all 0.25s ease;
         }
-        
-        .profile-preview:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 25px 60px rgba(0, 0, 0, 0.9),
-                0 0 40px rgba(255, 48, 48, 0.3);
+
+        .profile-view:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 35px rgba(200, 16, 46, 0.25);
         }
-        
-        .preview-banner {
+
+        .view-header {
             width: 100%;
-            height: 140px;
-            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            height: 120px;
+            background: linear-gradient(45deg, var(--deep-black), var(--main-red));
             position: relative;
             overflow: hidden;
         }
-        
-        .preview-banner::before {
+
+        .view-header::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: bannerShine 4s ease-in-out infinite;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            animation: headerGlow 3.5s ease-in-out infinite;
         }
-        
-        @keyframes bannerShine {
+
+        @keyframes headerGlow {
             0%, 100% { left: -100%; }
             50% { left: 100%; }
         }
-        
-        .preview-avatar {
-            width: 90px;
-            height: 90px;
+
+        .view-avatar {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            margin: -45px auto 1.5rem;
-            border: 4px solid var(--primary);
+            background: linear-gradient(45deg, var(--main-red), var(--glow-accent));
+            margin: -40px auto 1.2rem;
+            border: 3px solid var(--main-red);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.2rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
+            font-size: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.25s ease;
         }
-        
-        .preview-avatar:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+
+        .view-avatar:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
         }
-        
-        .preview-username {
-            font-family: 'Butcherman', cursive;
-            color: var(--primary);
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+
+        .view-name {
+            font-family: 'Playfair Display', serif;
+            color: var(--main-red);
+            font-size: 1.4rem;
+            margin-bottom: 0.4rem;
             position: relative;
             cursor: pointer;
         }
-        
-        .uid-tooltip {
+
+        .id-tip {
             position: absolute;
-            top: -30px;
+            top: -25px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            background: rgba(0, 0, 0, 0.85);
+            color: #ddd;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.75rem;
             white-space: nowrap;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.25s ease;
             z-index: 10;
         }
-        
-        .preview-username:hover .uid-tooltip {
+
+        .view-name:hover .id-tip {
             opacity: 1;
         }
-        
-        .preview-badges {
+
+        .view-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.3rem;
+            gap: 0.25rem;
             justify-content: center;
-            margin-bottom: 1rem;
-            padding: 0 1rem;
+            margin-bottom: 0.8rem;
+            padding: 0 0.8rem;
         }
-        
-        .preview-badges .badge {
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
+
+        .view-tags .badge-tag {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
         }
-        
-        .preview-bio {
-            color: #cc9999;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            padding: 0 1rem;
+
+        .view-desc {
+            color: #cc8888;
+            margin-bottom: 1.2rem;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            padding: 0 0.8rem;
         }
-        
-        .preview-links {
+
+        .view-connections {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            padding: 0 1rem 1rem;
+            gap: 0.4rem;
+            padding: 0 0.8rem 0.8rem;
         }
-        
-        .preview-link {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 48, 48, 0.1);
-            border: 1px solid var(--primary);
-            color: var(--primary);
+
+        .connection-link {
+            padding: 0.4rem 0.8rem;
+            background: rgba(200, 16, 46, 0.08);
+            border: 1px solid var(--main-red);
+            color: var(--main-red);
             text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            font-size: 0.85rem;
         }
-        
-        .preview-link:hover {
-            background: rgba(255, 48, 48, 0.2);
-            box-shadow: 0 0 10px rgba(255, 48, 48, 0.3);
+
+        .connection-link:hover {
+            background: rgba(200, 16, 46, 0.15);
+            box-shadow: 0 0 8px rgba(200, 16, 46, 0.25);
         }
-        
-        /* Responsive */
+
+        /* Mobile Adjustments */
         @media (max-width: 1024px) {
-            .profile-builder {
+            .profile-editor {
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
-            
-            .profile-preview {
+
+            .profile-view {
                 position: relative;
                 top: 0;
             }
         }
-        
+
         @media (max-width: 768px) {
-            .nav-content {
+            .nav-wrapper {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.8rem;
             }
-            
-            .nav-links {
-                gap: 1rem;
+
+            .nav-menu {
+                gap: 0.8rem;
             }
-            
-            .hero {
-                padding: 2rem 1rem;
+
+            .welcome-hero {
+                padding: 1.5rem 0.8rem;
             }
-            
-            .profile-builder {
-                padding: 1rem;
+
+            .profile-editor {
+                padding: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="nav">
-        <div class="nav-content">
-            <div class="logo">alucard.lol</div>
-            <div class="nav-links">
-                <a href="#" class="nav-link active" data-section="home">Home</a>
-                <a href="#" class="nav-link" data-section="auth">Login / Sign Up</a>
-                <a href="#" class="nav-link" data-section="premium">Premium</a>
-            </div>
+    <header class="nav-bar">
+        <div class="nav-wrapper">
+            <div class="site-logo">alucard.lol</div>
+            <nav class="nav-menu">
+                <a href="#" class="menu-item active" data-section="home">Home</a>
+                <a href="#" class="menu-item" data-section="auth">Login / Sign Up</a>
+                <a href="#" class="menu-item" data-section="premium">Premium</a>
+            </nav>
         </div>
-    </nav>
-    
-    <div class="main-content">
-        <!-- Home Section -->
-        <section class="section active" id="home">
-            <div class="hero">
-                <h1 class="hero-title">alucard.lol</h1>
-                <p class="hero-subtitle">the best to do it.</p>
-                <p class="hero-description">
-                    Create your personalized dark profile. Express your gothic aesthetic with custom themes, 
-                    effects, and styling. Join the shadows and make your digital presence unforgettable.
+    </header>
+
+    <main class="content-area">
+        <!-- Home Page -->
+        <section class="page-section active" id="home">
+            <div class="welcome-hero">
+                <h1 class="hero-heading">alucard.lol</h1>
+                <p class="hero-tagline">the best to do it.</p>
+                <p class="hero-text">
+                    Craft your own shadowy profile. Unleash your inner goth with bespoke themes, eerie effects, and killer styles. Step into the void and etch your mark on the digital night.
                 </p>
-                <a href="#" class="cta-button" data-section="auth">Enter the Darkness</a>
+                <a href="#" class="action-btn" data-section="auth">Step into the Void</a>
             </div>
         </section>
-        
-        <!-- Auth Section -->
-       <section class="section" id="auth">
-    <div class="auth-container">
-        <div class="auth-tabs">
-            <button class="auth-tab active" data-tab="login">Login</button>
-            <button class="auth-tab" data-tab="signup">Sign Up</button>
-        </div>
-        
-        <div class="auth-form active" id="login-form">
-            <h2 style="text-align: center; font-family: 'Butcherman', cursive; margin-bottom: 2rem; color: var(--primary);">Welcome Back</h2>
-            <div class="form-group">
-                <label class="form-label">Username</label>
-                <input type="text" class="form-input" id="login-username" placeholder="Enter username">
+
+        <!-- Auth Page -->
+        <section class="page-section" id="auth">
+            <div class="auth-box">
+                <div class="auth-switch">
+                    <button class="switch-tab active" data-tab="login">Login</button>
+                    <button class="switch-tab" data-tab="signup">Sign Up</button>
+                </div>
+
+                <div class="auth-panel active" id="login-form">
+                    <h2 style="text-align: center; font-family: 'Playfair Display', serif; margin-bottom: 1.5rem; color: var(--main-red);">Back to the Shadows</h2>
+                    <div class="input-group">
+                        <label class="input-label">Username</label>
+                        <input type="text" class="input-field" id="login-username" placeholder="Your alias">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Password</label>
+                        <input type="password" class="input-field" id="login-password" placeholder="Secret word">
+                    </div>
+                    <div class="input-group" id="login-error" style="color: #ff6666; text-align: center; display: none;"></div>
+                    <button class="action-btn" style="width: 100%; margin-top: 0.8rem;" id="login-btn">Enter</button>
+                </div>
+
+                <div class="auth-panel" id="signup-form">
+                    <h2 style="text-align: center; font-family: 'Playfair Display', serif; margin-bottom: 1.5rem; color: var(--main-red);">Join the Night</h2>
+                    <div class="input-group">
+                        <label class="input-label">Username</label>
+                        <input type="text" class="input-field" id="signup-username" placeholder="Pick a name">
+                        <div class="form-error" id="username-error" style="color: #ff6666; font-size: 0.75rem; margin-top: 0.4rem; display: none;"></div>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Email</label>
+                        <input type="email" class="input-field" id="signup-email" placeholder="Your email">
+                        <div class="form-error" id="email-error" style="color: #ff6666; font-size: 0.75rem; margin-top: 0.4rem; display: none;"></div>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Password</label>
+                        <input type="password" class="input-field" id="signup-password" placeholder="Choose password">
+                        <div class="form-error" id="password-error" style="color: #ff6666; font-size: 0.75rem; margin-top: 0.4rem; display: none;"></div>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Confirm Password</label>
+                        <input type="password" class="input-field" id="signup-confirm-password" placeholder="Repeat password">
+                        <div class="form-error" id="confirm-password-error" style="color: #ff6666; font-size: 0.75rem; margin-top: 0.4rem; display: none;"></div>
+                    </div>
+                    <button class="action-btn" style="width: 100%; margin-top: 0.8rem;" id="signup-btn">Create</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-input" id="login-password" placeholder="Enter password">
-            </div>
-            <div class="form-group" id="login-error" style="color: #ff6666; text-align: center; display: none;"></div>
-            <button class="cta-button" style="width: 100%; margin-top: 1rem;" id="login-btn">Login</button>
-        </div>
-        
-        <div class="auth-form" id="signup-form">
-            <h2 style="text-align: center; font-family: 'Butcherman', cursive; margin-bottom: 2rem; color: var(--primary);">Join the Darkness</h2>
-            <div class="form-group">
-                <label class="form-label">Username</label>
-                <input type="text" class="form-input" id="signup-username" placeholder="Choose username">
-                <div class="form-error" id="username-error" style="color: #ff6666; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-input" id="signup-email" placeholder="Enter email">
-                <div class="form-error" id="email-error" style="color: #ff6666; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-input" id="signup-password" placeholder="Create password">
-                <div class="form-error" id="password-error" style="color: #ff6666; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Confirm Password</label>
-                <input type="password" class="form-input" id="signup-confirm-password" placeholder="Confirm password">
-                <div class="form-error" id="confirm-password-error" style="color: #ff6666; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></div>
-            </div>
-            <button class="cta-button" style="width: 100%; margin-top: 1rem;" id="signup-btn">Create Account</button>
-        </div>
-    </div>
-</section>
-        
-        <!-- Profile Builder (shown after signup/login) -->
-        <section class="section" id="profile">
-            <div class="profile-builder">
+        </section>
+
+        <!-- Profile Section -->
+        <section class="page-section" id="profile">
+            <div class="profile-editor">
                 <div>
-                    <div class="form-section">
-                        <h3>🦇 Basic Information</h3>
-                        <div class="form-group">
-                            <label class="form-label">Display Name</label>
-                            <input type="text" class="form-input" id="displayName" placeholder="Your Dark Title">
+                    <div class="edit-section">
+                        <h3>🦇 Basics</h3>
+                        <div class="input-group">
+                            <label class="input-label">Display Name</label>
+                            <input type="text" class="input-field" id="displayName" placeholder="Shadow Name">
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Bio</label>
-                            <textarea class="form-textarea" id="bio" placeholder="Embrace the darkness..."></textarea>
+                        <div class="input-group">
+                            <label class="input-label">Bio</label>
+                            <textarea class="text-area" id="bio" placeholder="Your dark tale..."></textarea>
                         </div>
                     </div>
-                    
-                    <div class="form-section">
-                        <h3>🎨 Theme Customization</h3>
-                        <div class="form-group">
-                            <label class="form-label">Primary Color</label>
-                            <div class="color-picker">
-                                <div class="color-option selected" style="background: #ff3030" data-color="#ff3030"></div>
-                                <div class="color-option" style="background: #8b5cf6" data-color="#8b5cf6"></div>
-                                <div class="color-option" style="background: #10b981" data-color="#10b981"></div>
-                                <div class="color-option" style="background: #f59e0b" data-color="#f59e0b"></div>
-                                <div class="color-option" style="background: #ef4444" data-color="#ef4444"></div>
-                                <div class="color-option" style="background: #3b82f6" data-color="#3b82f6"></div>
-                                <div class="color-option" style="background: #ec4899" data-color="#ec4899"></div>
-                                <div class="color-option" style="background: #6b7280" data-color="#6b7280"></div>
-                                <div class="color-option" style="background: #8b0000" data-color="#8b0000"></div>
-                                <div class="color-option" style="background: #1f2937" data-color="#1f2937"></div>
+
+                    <div class="edit-section">
+                        <h3>🎨 Themes</h3>
+                        <div class="input-group">
+                            <label class="input-label">Main Color</label>
+                            <div class="color-grid">
+                                <div class="color-choice selected" style="background: #c8102e" data-color="#c8102e"></div>
+                                <div class="color-choice" style="background: #7b1fa2" data-color="#7b1fa2"></div>
+                                <div class="color-choice" style="background: #0d47a1" data-color="#0d47a1"></div>
+                                <div class="color-choice" style="background: #e65100" data-color="#e65100"></div>
+                                <div class="color-choice" style="background: #d32f2f" data-color="#d32f2f"></div>
+                                <div class="color-choice" style="background: #303f9f" data-color="#303f9f"></div>
+                                <div class="color-choice" style="background: #c2185b" data-color="#c2185b"></div>
+                                <div class="color-choice" style="background: #455a64" data-color="#455a64"></div>
+                                <div class="color-choice" style="background: #7f0000" data-color="#7f0000"></div>
+                                <div class="color-choice" style="background: #212121" data-color="#212121"></div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Background Style</label>
-                            <select class="form-select" id="bgStyle">
-                                <option value="gradient">Dark Gradient</option>
-                                <option value="particles">Floating Particles</option>
-                                <option value="matrix">Matrix Rain</option>
-                                <option value="blood">Blood Drops</option>
-                                <option value="smoke">Smoke Effect</option>
+                        <div class="input-group">
+                            <label class="input-label">BG Style</label>
+                            <select class="select-box" id="bgStyle">
+                                <option value="gradient">Shadow Gradient</option>
+                                <option value="particles">Drifting Souls</option>
+                                <option value="matrix">Code Rain</option>
+                                <option value="blood">Crimson Drip</option>
+                                <option value="smoke">Mist Veil</option>
                             </select>
                         </div>
                     </div>
-                    
-                    <div class="form-section">
-                        <h3>✨ Effects & Animation</h3>
-                        <div class="fx-grid">
-                            <div class="fx-option" data-fx="glow">Text Glow</div>
-                            <div class="fx-option" data-fx="pulse">Pulse Effect</div>
-                            <div class="fx-option" data-fx="shake">Hover Shake</div>
-                            <div class="fx-option" data-fx="fade">Fade In</div>
-                            <div class="fx-option" data-fx="typewriter">Typewriter</div>
-                            <div class="fx-option" data-fx="glitch">Glitch Text</div>
+
+                    <div class="edit-section">
+                        <h3>✨ Effects</h3>
+                        <div class="effects-layout">
+                            <div class="effect-item" data-fx="glow">Glow Text</div>
+                            <div class="effect-item" data-fx="pulse">Beat Pulse</div>
+                            <div class="effect-item" data-fx="shake">Tremor Hover</div>
+                            <div class="effect-item" data-fx="fade">Soft Fade</div>
+                            <div class="effect-item" data-fx="typewriter">Typing Echo</div>
+                            <div class="effect-item" data-fx="glitch">Glitch Warp</div>
                         </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3>🏅 Badges</h3>
-                        <div class="badges-grid">
-                            <div class="badge owner">Owner</div>
-                            <div class="badge developer">Developer</div>
-                            <div class="badge staff">Staff</div>
-                            <div class="badge premium">Premium</div>
-                            <div class="badge beta-tester">Beta Tester</div>
-                            <div class="badge tester">Tester</div>
-                            <div class="badge image-host">Image Host</div>
-                            <div class="badge custom">Custom Role</div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3>🔗 Social Links</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                            <div class="form-group">
-                                <label class="form-label">Discord</label>
-                                <input type="text" class="form-input" id="discord" placeholder="username#1234">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Instagram</label>
-                                <input type="text" class="form-input" id="instagram" placeholder="@username">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">TikTok</label>
-                                <input type="text" class="form-input" id="tiktok" placeholder="@username">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Twitch</label>
-                                <input type="text" class="form-input" id="twitch" placeholder="username">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Spotify</label>
-                                <input type="text" class="form-input" id="spotify" placeholder="Profile URL">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Custom Link</label>
-                                <input type="text" class="form-input" id="customLink" placeholder="https://...">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="cta-button" id="saveProfile">Save Profile</button>
-                    </div>
-                </div>
-                
-                <div class="profile-preview">
-                    <div class="preview-banner"></div>
-                    <div class="preview-avatar">🦇</div>
-                    <div class="preview-username">
-                        your_username
-                        <div class="uid-tooltip">UID: #1</div>
-                    </div>
-                    <div class="preview-badges">
-                        <div class="badge premium">Premium</div>
-                        <div class="badge beta-tester">Beta Tester</div>
-                    </div>
-                    <div class="preview-bio">Embrace the darkness...</div>
-                    <div class="preview-links">
-                        <a href="#" class="preview-link">🎮 Discord</a>
-                        <a href="#" class="preview-link">📸 Instagram</a>
-                        <a href="#" class="preview-link">🎵 TikTok</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Premium Section -->
-        <section class="section" id="premium">
-            <div style="text-align: center; padding: 4rem 2rem; max-width: 1000px; margin: 0 auto;">
-                <h2 style="font-family: 'Butcherman', cursive; font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary);">Premium Darkness</h2>
-                <p style="color: #cc9999; font-size: 1.2rem; margin-bottom: 3rem;">Unleash the full power of customization</p>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-                    <div style="background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 1px solid var(--primary); padding: 2rem; text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
-                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">Analytics</h3>
-                        <p style="color: #cc9999;">Track profile views, link clicks, and visitor data</p>
-                    </div>
-                    
-                    <div style="background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 1px solid var(--primary); padding: 2rem; text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎨</div>
-                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">Custom CSS</h3>
-                        <p style="color: #cc9999;">Add your own CSS for unlimited customization</p>
                     </div>
 
-                    <div style="background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 1px solid var(--primary); padding: 2rem; text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">👑</div>
-                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">Custom Domains</h3>
-                        <p style="color: #cc9999;">Get your own custom domain like yourname.alucard.lol</p>
+                    <div class="edit-section">
+                        <h3>🏅 Tags</h3>
+                        <div class="badges-layout">
+                            <div class="badge-tag owner">Owner</div>
+                            <div class="badge-tag dev">Dev</div>
+                            <div class="badge-tag staff">Staff</div>
+                            <div class="badge-tag premium">Premium</div>
+                            <div class="badge-tag beta">Beta</div>
+                            <div class="badge-tag tester">Tester</div>
+                            <div class="badge-tag imagehost">Image Host</div>
+                            <div class="badge-tag custom">Custom</div>
+                        </div>
                     </div>
-                    
-                    <div style="background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 1px solid var(--primary); padding: 2rem; text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔮</div>
-                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">Advanced FX</h3>
-                        <p style="color: #cc9999;">Premium animations, particle effects, and custom cursors</p>
+
+                    <div class="edit-section">
+                        <h3>🔗 Links</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem;">
+                            <div class="input-group">
+                                <label class="input-label">Discord</label>
+                                <input type="text" class="input-field" id="discord" placeholder="user#0000">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Instagram</label>
+                                <input type="text" class="input-field" id="instagram" placeholder="@handle">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">TikTok</label>
+                                <input type="text" class="input-field" id="tiktok" placeholder="@handle">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Twitch</label>
+                                <input type="text" class="input-field" id="twitch" placeholder="channel">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Spotify</label>
+                                <input type="text" class="input-field" id="spotify" placeholder="Link">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Extra Link</label>
+                                <input type="text" class="input-field" id="customLink" placeholder="https://">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="action-btn" id="saveProfile">Save Changes</button>
                     </div>
                 </div>
-                
-                <div style="margin-top: 3rem;">
-                    <div style="display: inline-block; padding: 2rem; background: linear-gradient(145deg, var(--surface), rgba(40, 10, 10, 0.4)); border: 2px solid var(--primary);">
-                        <h3 style="font-family: 'Butcherman', cursive; color: var(--primary); margin-bottom: 1rem;">$6.66/month</h3>
-                        <p style="color: #cc9999; margin-bottom: 2rem;">Join the elite darkness</p>
-                        <button class="cta-button">Ascend to Premium</button>
+
+                <div class="profile-view">
+                    <div class="view-header"></div>
+                    <div class="view-avatar">🦇</div>
+                    <div class="view-name">
+                        your_alias
+                        <div class="id-tip">UID: #1</div>
+                    </div>
+                    <div class="view-tags">
+                        <div class="badge-tag premium">Premium</div>
+                        <div class="badge-tag beta">Beta</div>
+                    </div>
+                    <div class="view-desc">Dive into the void...</div>
+                    <div class="view-connections">
+                        <a href="#" class="connection-link">🎮 Discord</a>
+                        <a href="#" class="connection-link">📸 Instagram</a>
+                        <a href="#" class="connection-link">🎵 TikTok</a>
                     </div>
                 </div>
             </div>
         </section>
-    </div>
-    
+
+        <!-- Premium Page -->
+        <section class="page-section" id="premium">
+            <div style="text-align: center; padding: 3rem 1.5rem; max-width: 900px; margin: 0 auto;">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 0.8rem; color: var(--main-red);">Elite Shadows</h2>
+                <p style="color: #cc8888; font-size: 1.1rem; margin-bottom: 2.5rem;">Unlock the depths of customization</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div style="background: linear-gradient(135deg, var(--surface-dim), rgba(30, 8, 8, 0.35)); border: 1px solid var(--main-red); padding: 1.5rem; text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">📊</div>
+                        <h3 style="font-family: 'Playfair Display', serif; color: var(--main-red); margin-bottom: 0.8rem;">Insights</h3>
+                        <p style="color: #cc8888;">Monitor views, clicks, visitor stats</p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, var(--surface-dim), rgba(30, 8, 8, 0.35)); border: 1px solid var(--main-red); padding: 1.5rem; text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">🎨</div>
+                        <h3 style="font-family: 'Playfair Display', serif; color: var(--main-red); margin-bottom: 0.8rem;">Custom Code</h3>
+                        <p style="color: #cc8888;">Inject CSS for endless tweaks</p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, var(--surface-dim), rgba(30, 8, 8, 0.35)); border: 1px solid var(--main-red); padding: 1.5rem; text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">👑</div>
+                        <h3 style="font-family: 'Playfair Display', serif; color: var(--main-red); margin-bottom: 0.8rem;">Personal Domains</h3>
+                        <p style="color: #cc8888;">Claim alias.alucard.lol</p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, var(--surface-dim), rgba(30, 8, 8, 0.35)); border: 1px solid var(--main-red); padding: 1.5rem; text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">🔮</div>
+                        <h3 style="font-family: 'Playfair Display', serif; color: var(--main-red); margin-bottom: 0.8rem;">Elite Effects</h3>
+                        <p style="color: #cc8888;">Advanced animations, particles, cursors</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2.5rem;">
+                    <div style="display: inline-block; padding: 1.5rem; background: linear-gradient(135deg, var(--surface-dim), rgba(30, 8, 8, 0.35)); border: 2px solid var(--main-red);">
+                        <h3 style="font-family: 'Playfair Display', serif; color: var(--main-red); margin-bottom: 0.8rem;">$6.66/month</h3>
+                        <p style="color: #cc8888; margin-bottom: 1.5rem;">Ascend to the elite</p>
+                        <button class="action-btn">Upgrade Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <script>
-        
-  let users = JSON.parse(localStorage.getItem('users')) || {};
-let userCount = Object.keys(users).length;
-let currentUser = null;
-       
-        
-        // Navigation
-        document.querySelectorAll('.nav-link, .cta-button[data-section]').forEach(link => {
+        // user storage stuff
+        let users = JSON.parse(localStorage.getItem('users')) || {};
+        let userCount = Object.keys(users).length;  // count how many we got
+        let currentUser = null;
+
+        // nav clicks
+        document.querySelectorAll('.menu-item, .action-btn[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const targetSection = e.target.getAttribute('data-section');
-                
-                document.querySelectorAll('.nav-link').forEach(nl => nl.classList.remove('active'));
-                document.querySelectorAll('.nav-link[data-section="' + targetSection + '"]').forEach(nl => nl.classList.add('active'));
-                
-                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-                document.getElementById(targetSection).classList.add('active');
-            });
-        });
-        
-        // Auth tabs
-       document.querySelectorAll('.auth-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        const tabType = tab.getAttribute('data-tab');
-        
-        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        
-        document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
-        document.getElementById(tabType + '-form').classList.add('active');
-        
-        // Clear error messages
-        document.querySelectorAll('.form-error').forEach(error => error.style.display = 'none');
-        document.getElementById('login-error').style.display = 'none';
-    });
-});
+                const target = e.target.getAttribute('data-section');
 
-function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-        
-        // Sign up functionality
-        document.getElementById('signup-btn').addEventListener('click', (e) => {
-    e.preventDefault();
-    
-    // Clear previous error messages
-    document.querySelectorAll('.form-error').forEach(error => error.style.display = 'none');
-    
-    const username = document.getElementById('signup-username').value.trim();
-    const email = document.getElementById('signup-email').value.trim();
-    const password = document.getElementById('signup-password').value;
-    const confirmPassword = document.getElementById('signup-confirm-password').value;
-    
-    let isValid = true;
-    
-    // Username validation
-    if (!username || username.length < 3) {
-        document.getElementById('username-error').textContent = 'Username must be at least 3 characters long';
-        document.getElementById('username-error').style.display = 'block';
-        isValid = false;
-    } else if (users[username]) {
-        document.getElementById('username-error').textContent = 'Username already exists';
-        document.getElementById('username-error').style.display = 'block';
-        isValid = false;
-    }
-    
-    // Email validation
-    if (!isValidEmail(email)) {
-        document.getElementById('email-error').textContent = 'Please enter a valid email address';
-        document.getElementById('email-error').style.display = 'block';
-        isValid = false;
-    }
-    
-    // Password validation
-    if (password.length < 6) {
-        document.getElementById('password-error').textContent = 'Password must be at least 6 characters long';
-        document.getElementById('password-error').style.display = 'block';
-        isValid = false;
-    }
-    
-    // Confirm password validation
-    if (password !== confirmPassword) {
-        document.getElementById('confirm-password-error').textContent = 'Passwords do not match';
-        document.getElementById('confirm-password-error').style.display = 'block';
-        isValid = false;
-    }
-    
-    if (!isValid) return;
-    
-    // Create new user
-    userCount++;
-    currentUser = {
-        username: username,
-        email: email,
-        uid: userCount,
-        displayName: username,
-        bio: 'New to the darkness...',
-        badges: ['beta-tester'],
-        theme: {
-            primaryColor: '#ff3030',
-            bgStyle: 'gradient'
-        }
-    };
-    
-    // Store user data
-    users[username] = {
-        ...currentUser,
-        password: password // In production, password should be hashed
-    };
-    localStorage.setItem('users', JSON.stringify(users));
-    
-    // Show success message
-    const btn = e.target;
-    const originalText = btn.textContent;
-    btn.textContent = 'Account Created! 🦇';
-    btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
-    
-    setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-        
-        // Navigate to profile section
-        document.querySelectorAll('.nav-link').forEach(nl => nl.classList.remove('active'));
-        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-        document.getElementById('profile').classList.add('active');
-        
-        // Update preview with user info
-        updatePreview();
-    }, 1500);
-});
-        
-        // Color picker
-        document.querySelectorAll('.color-option').forEach(option => {
-            option.addEventListener('click', () => {
-                document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-                option.classList.add('selected');
-                
-                const color = option.getAttribute('data-color');
-                document.documentElement.style.setProperty('--primary', color);
-                
-                // Update preview
-                updatePreview();
+                document.querySelectorAll('.menu-item').forEach(n => n.classList.remove('active'));
+                document.querySelectorAll('.menu-item[data-section="' + target + '"]').forEach(n => n.classList.add('active'));
+
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+                document.getElementById(target).classList.add('active');
             });
         });
-        
-        // FX options
-        document.querySelectorAll('.fx-option').forEach(fx => {
+
+        // auth tab switch
+        document.querySelectorAll('.switch-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const type = tab.getAttribute('data-tab');
+
+                document.querySelectorAll('.switch-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+                document.getElementById(type + '-form').classList.add('active');
+
+                // reset errors
+                document.querySelectorAll('.form-error').forEach(err => err.style.display = 'none');
+                document.getElementById('login-error').style.display = 'none';
+            });
+        });
+
+        // email check
+        function validEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // signup button
+        document.getElementById('signup-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            document.querySelectorAll('.form-error').forEach(err => err.style.display = 'none');
+
+            const username = document.getElementById('signup-username').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirmPass = document.getElementById('signup-confirm-password').value;
+
+            let good = true;
+
+            if (!username || username.length < 3) {
+                document.getElementById('username-error').textContent = 'Need at least 3 chars for username';
+                document.getElementById('username-error').style.display = 'block';
+                good = false;
+            } else if (users[username]) {
+                document.getElementById('username-error').textContent = 'Username taken';
+                document.getElementById('username-error').style.display = 'block';
+                good = false;
+            }
+
+            if (!validEmail(email)) {
+                document.getElementById('email-error').textContent = 'Bad email format';
+                document.getElementById('email-error').style.display = 'block';
+                good = false;
+            }
+
+            if (password.length < 6) {
+                document.getElementById('password-error').textContent = 'Password too short, 6+ chars';
+                document.getElementById('password-error').style.display = 'block';
+                good = false;
+            }
+
+            if (password !== confirmPass) {
+                document.getElementById('confirm-password-error').textContent = 'Passwords dont match';
+                document.getElementById('confirm-password-error').style.display = 'block';
+                good = false;
+            }
+
+            if (!good) return;
+
+            userCount++;
+            currentUser = {
+                username: username,
+                email: email,
+                uid: userCount,
+                displayName: username,
+                bio: 'Fresh blood in the night...',
+                badges: ['beta'],
+                theme: {
+                    primaryColor: '#c8102e',
+                    bgStyle: 'gradient'
+                }
+            };
+
+            users[username] = {
+                ...currentUser,
+                password: password  // todo: hash this irl
+            };
+            localStorage.setItem('users', JSON.stringify(users));
+
+            const btn = e.target;
+            const orig = btn.textContent;
+            btn.textContent = 'Created! 🦇';
+            btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
+
+            setTimeout(() => {
+                btn.textContent = orig;
+                btn.style.background = '';
+
+                document.querySelectorAll('.menu-item').forEach(n => n.classList.remove('active'));
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+                document.getElementById('profile').classList.add('active');
+
+                refreshView();
+            }, 1500);
+        });
+
+        // color pick
+        document.querySelectorAll('.color-choice').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.color-choice').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+
+                const col = opt.getAttribute('data-color');
+                document.documentElement.style.setProperty('--main-red', col);
+
+                refreshView();
+            });
+        });
+
+        // effects toggle
+        document.querySelectorAll('.effect-item').forEach(fx => {
             fx.addEventListener('click', () => {
                 fx.classList.toggle('selected');
-                const fxType = fx.getAttribute('data-fx');
-                
-                // Apply effect to preview
-                const previewUsername = document.querySelector('.preview-username');
-                previewUsername.classList.toggle(fxType);
-                
-                // Add CSS classes for effects
+                const type = fx.getAttribute('data-fx');
+
+                document.querySelector('.view-name').classList.toggle(type);
+
                 if (!document.getElementById('fx-styles')) {
                     const style = document.createElement('style');
                     style.id = 'fx-styles';
                     style.textContent = `
-                        .glow { text-shadow: 0 0 20px currentColor !important; }
-                        .pulse { animation: pulseEffect 2s infinite; }
-                        .shake:hover { animation: shakeEffect 0.5s; }
-                        .fade { animation: fadeInEffect 2s; }
-                        .typewriter { overflow: hidden; border-right: 2px solid; animation: typewriterEffect 3s steps(20, end), blinkCursor 0.5s step-end infinite alternate; }
-                        .glitch { animation: glitchEffect 2s infinite; }
-                        
-                        @keyframes pulseEffect { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-                        @keyframes shakeEffect { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+                        .glow { text-shadow: 0 0 15px currentColor !important; }
+                        .pulse { animation: pulseEffect 1.8s infinite; }
+                        .shake:hover { animation: shakeEffect 0.4s; }
+                        .fade { animation: fadeInEffect 1.8s; }
+                        .typewriter { overflow: hidden; border-right: 2px solid; animation: typewriterEffect 2.5s steps(20, end), blinkCursor 0.4s step-end infinite alternate; }
+                        .glitch { animation: glitchEffect 1.8s infinite; }
+
+                        @keyframes pulseEffect { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+                        @keyframes shakeEffect { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
                         @keyframes fadeInEffect { from { opacity: 0; } to { opacity: 1; } }
                         @keyframes typewriterEffect { from { width: 0; } to { width: 100%; } }
                         @keyframes blinkCursor { from { border-color: transparent; } to { border-color: currentColor; } }
-                        @keyframes glitchEffect { 0%, 100% { transform: translate(0); filter: hue-rotate(0deg); } 20% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); } 40% { transform: translate(-2px, -2px); filter: hue-rotate(180deg); } 60% { transform: translate(2px, 2px); filter: hue-rotate(270deg); } 80% { transform: translate(2px, -2px); filter: hue-rotate(360deg); } }
+                        @keyframes glitchEffect { 0%, 100% { transform: translate(0); filter: hue-rotate(0deg); } 20% { transform: translate(-1px, 1px); filter: hue-rotate(90deg); } 40% { transform: translate(-1px, -1px); filter: hue-rotate(180deg); } 60% { transform: translate(1px, 1px); filter: hue-rotate(270deg); } 80% { transform: translate(1px, -1px); filter: hue-rotate(360deg); } }
                     `;
                     document.head.appendChild(style);
                 }
             });
         });
-        
-        // Badge selection (only for demo, in real app would be role-based)
-        document.querySelectorAll('.badge').forEach(badge => {
-            badge.addEventListener('click', () => {
-                badge.classList.toggle('selected');
-                updatePreview();
+
+        // badge clicks
+        document.querySelectorAll('.badge-tag').forEach(b => {
+            b.addEventListener('click', () => {
+                b.classList.toggle('selected');
+                refreshView();
             });
         });
-        
-        // Real-time preview updates
-        function updatePreview() {
+
+        // update the preview
+        function refreshView() {
             if (!currentUser) return;
-            
-            const displayName = document.getElementById('displayName').value || currentUser.username;
-            const bio = document.getElementById('bio').value || 'Embrace the darkness...';
-            
-            document.querySelector('.preview-username').firstChild.textContent = displayName;
-            document.querySelector('.uid-tooltip').textContent = `UID: #${currentUser.uid}`;
-            document.querySelector('.preview-bio').textContent = bio;
-            
-            // Update badges
-            const badgesContainer = document.querySelector('.preview-badges');
-            badgesContainer.innerHTML = '';
-            document.querySelectorAll('.badge.selected').forEach(badge => {
-                const newBadge = badge.cloneNode(true);
-                newBadge.classList.remove('selected');
-                badgesContainer.appendChild(newBadge);
+
+            const name = document.getElementById('displayName').value || currentUser.username;
+            const bioText = document.getElementById('bio').value || 'Dive into the void...';
+
+            document.querySelector('.view-name').firstChild.textContent = name;
+            document.querySelector('.id-tip').textContent = `UID: #${currentUser.uid}`;
+            document.querySelector('.view-desc').textContent = bioText;
+
+            const tagsBox = document.querySelector('.view-tags');
+            tagsBox.innerHTML = '';
+            document.querySelectorAll('.badge-tag.selected').forEach(b => {
+                const copy = b.cloneNode(true);
+                copy.classList.remove('selected');
+                tagsBox.appendChild(copy);
             });
-            
-            // Update links
-            const linksContainer = document.querySelector('.preview-links');
-            linksContainer.innerHTML = '';
-            
-            const socialInputs = [
+
+            const linksBox = document.querySelector('.view-connections');
+            linksBox.innerHTML = '';
+
+            const socials = [
                 { id: 'discord', icon: '🎮', name: 'Discord' },
                 { id: 'instagram', icon: '📸', name: 'Instagram' },
                 { id: 'tiktok', icon: '🎵', name: 'TikTok' },
@@ -1012,304 +983,293 @@ function isValidEmail(email) {
                 { id: 'spotify', icon: '🎧', name: 'Spotify' },
                 { id: 'customLink', icon: '🔗', name: 'Custom' }
             ];
-            
-            socialInputs.forEach(social => {
-                const element = document.getElementById(social.id);
-                if (element && element.value) {
-                    const link = document.createElement('a');
-                    link.href = '#';
-                    link.className = 'preview-link';
-                    link.textContent = `${social.icon} ${social.name}`;
-                    linksContainer.appendChild(link);
+
+            socials.forEach(s => {
+                const el = document.getElementById(s.id);
+                if (el && el.value) {
+                    const lnk = document.createElement('a');
+                    lnk.href = '#';
+                    lnk.className = 'connection-link';
+                    lnk.textContent = `${s.icon} ${s.name}`;
+                    linksBox.appendChild(lnk);
                 }
             });
         }
-        
-        // Add event listeners for real-time updates
+
+        // input listeners
         ['displayName', 'bio', 'discord', 'instagram', 'tiktok', 'twitch', 'spotify', 'customLink'].forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.addEventListener('input', updatePreview);
-            }
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', refreshView);
         });
-        
-        // Background style changes
+
+        // bg change
         document.getElementById('bgStyle').addEventListener('change', (e) => {
-            const style = e.target.value;
-            const banner = document.querySelector('.preview-banner');
-            
-            switch(style) {
+            const val = e.target.value;
+            const head = document.querySelector('.view-header');
+
+            switch (val) {
                 case 'gradient':
-                    banner.style.background = 'linear-gradient(45deg, var(--secondary), var(--primary))';
+                    head.style.background = 'linear-gradient(45deg, var(--deep-black), var(--main-red))';
                     break;
                 case 'particles':
-                    banner.style.background = 'radial-gradient(circle, var(--primary) 1px, transparent 1px)';
-                    banner.style.backgroundSize = '20px 20px';
+                    head.style.background = 'radial-gradient(circle, var(--main-red) 1px, transparent 1px)';
+                    head.style.backgroundSize = '18px 18px';
                     break;
                 case 'matrix':
-                    banner.style.background = 'repeating-linear-gradient(90deg, var(--primary) 0px, var(--primary) 1px, transparent 1px, transparent 10px)';
+                    head.style.background = 'repeating-linear-gradient(90deg, var(--main-red) 0px, var(--main-red) 1px, transparent 1px, transparent 9px)';
                     break;
                 case 'blood':
-                    banner.style.background = 'radial-gradient(ellipse at center, var(--primary) 10%, var(--secondary) 70%)';
+                    head.style.background = 'radial-gradient(ellipse at center, var(--main-red) 12%, var(--deep-black) 65%)';
                     break;
                 case 'smoke':
-                    banner.style.background = 'linear-gradient(45deg, rgba(139, 0, 0, 0.8), rgba(255, 48, 48, 0.4))';
+                    head.style.background = 'linear-gradient(45deg, rgba(139, 0, 0, 0.75), rgba(200, 16, 46, 0.35))';
                     break;
             }
         });
-        
-        // Save profile
+
+        // save click
         document.getElementById('saveProfile').addEventListener('click', () => {
             if (!currentUser) return;
-            
+
             const btn = document.getElementById('saveProfile');
-            const originalText = btn.textContent;
-            btn.textContent = 'Profile Saved! 🦇';
+            const orig = btn.textContent;
+            btn.textContent = 'Saved! 🦇';
             btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
-            
+
             setTimeout(() => {
-                btn.textContent = originalText;
+                btn.textContent = orig;
                 btn.style.background = '';
-                
-                alert(`Profile saved! View at: alucard.lol/${currentUser.username} (UID: #${currentUser.uid})`);
+
+                alert(`Saved! Check: alucard.lol/${currentUser.username} (UID: #${currentUser.uid})`);
             }, 1500);
         });
-        
-        // Particle system
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.style.position = 'fixed';
-            particle.style.width = '3px';
-            particle.style.height = '3px';
-            particle.style.background = 'var(--primary)';
-            particle.style.borderRadius = '50%';
-            particle.style.pointerEvents = 'none';
-            particle.style.zIndex = '1';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = '100vh';
-            particle.style.opacity = '0.7';
-            particle.style.animation = `floatUp ${Math.random() * 10 + 15}s linear forwards`;
-            
-            document.body.appendChild(particle);
-            
-            setTimeout(() => particle.remove(), 25000);
+
+        // particles
+        function makeParticle() {
+            const p = document.createElement('div');
+            p.style.position = 'fixed';
+            p.style.width = '2px';
+            p.style.height = '2px';
+            p.style.background = 'var(--main-red)';
+            p.style.borderRadius = '50%';
+            p.style.pointerEvents = 'none';
+            p.style.zIndex = '1';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = '100vh';
+            p.style.opacity = '0.6';
+            p.style.animation = `riseUp ${Math.random() * 12 + 12}s linear forwards`;
+
+            document.body.appendChild(p);
+
+            setTimeout(() => p.remove(), 22000);
         }
-        
-        // Add particle animation
-        const particleStyle = document.createElement('style');
-        particleStyle.textContent = `
-            @keyframes floatUp {
+
+        const pStyle = document.createElement('style');
+        pStyle.textContent = `
+            @keyframes riseUp {
                 0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-                10% { opacity: 0.7; }
-                90% { opacity: 0.7; }
-                100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+                15% { opacity: 0.6; }
+                85% { opacity: 0.6; }
+                100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
             }
         `;
-        document.head.appendChild(particleStyle);
-        
-        setInterval(createParticle, 800);
-        for (let i = 0; i < 15; i++) setTimeout(createParticle, i * 200);
-        
-        // Initialize default badges for preview
+        document.head.appendChild(pStyle);
+
+        setInterval(makeParticle, 700);
+        for (let j = 0; j < 12; j++) setTimeout(makeParticle, j * 180);
+
+        // default tags
         setTimeout(() => {
-            document.querySelectorAll('.badge')[3].classList.add('selected'); // Premium
-            document.querySelectorAll('.badge')[4].classList.add('selected'); // Beta Tester
-            updatePreview();
-        }, 500);
-        
-        // Login functionality
+            document.querySelectorAll('.badge-tag')[3].classList.add('selected');
+            document.querySelectorAll('.badge-tag')[4].classList.add('selected');
+            refreshView();
+        }, 400);
+
+        // login button
         document.getElementById('login-btn').addEventListener('click', (e) => {
-    e.preventDefault();
-    
-    const username = document.getElementById('login-username').value.trim();
-    const password = document.getElementById('login-password').value;
-    const errorElement = document.getElementById('login-error');
-    
-    // Clear previous error
-    errorElement.style.display = 'none';
-    
-    // Validate inputs
-    if (!username || !password) {
-        errorElement.textContent = 'Please enter both username and password';
-        errorElement.style.display = 'block';
-        return;
-    }
-    
-    // Check credentials
-    if (!users[username] || users[username].password !== password) {
-        errorElement.textContent = 'Invalid username or password';
-        errorElement.style.display = 'block';
-        return;
-    }
-    
-    // Successful login
-    currentUser = { ...users[username] };
-    
-    const btn = e.target;
-    const originalText = btn.textContent;
-    btn.textContent = 'Welcome Back! 🦇';
-    btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
-    
-    setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-        
-        // Navigate to profile section
-        document.querySelectorAll('.nav-link').forEach(nl => nl.classList.remove('active'));
-        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-        document.getElementById('profile').classList.add('active');
-        
-        updatePreview();
-    }, 1500);
-});
-        
-        // Enhanced particle effects based on theme
-        function createThemedParticle() {
-            const particle = document.createElement('div');
-            const size = Math.random() * 3 + 2;
-            
-            particle.style.cssText = `
+            e.preventDefault();
+
+            const user = document.getElementById('login-username').value.trim();
+            const pass = document.getElementById('login-password').value;
+            const err = document.getElementById('login-error');
+
+            err.style.display = 'none';
+
+            if (!user || !pass) {
+                err.textContent = 'Fill in username and password';
+                err.style.display = 'block';
+                return;
+            }
+
+            if (!users[user] || users[user].password !== pass) {
+                err.textContent = 'Wrong credentials';
+                err.style.display = 'block';
+                return;
+            }
+
+            currentUser = { ...users[user] };
+
+            const btn = e.target;
+            const orig = btn.textContent;
+            btn.textContent = 'Back In! 🦇';
+            btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
+
+            setTimeout(() => {
+                btn.textContent = orig;
+                btn.style.background = '';
+
+                document.querySelectorAll('.menu-item').forEach(n => n.classList.remove('active'));
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+                document.getElementById('profile').classList.add('active');
+
+                refreshView();
+            }, 1500);
+        });
+
+        // themed particles extra
+        function themedPart() {
+            const p = document.createElement('div');
+            const sz = Math.random() * 2 + 1.5;
+
+            p.style.cssText = `
                 position: fixed;
-                width: ${size}px;
-                height: ${size}px;
-                background: var(--primary);
+                width: ${sz}px;
+                height: ${sz}px;
+                background: var(--main-red);
                 border-radius: 50%;
                 pointer-events: none;
                 z-index: 1;
                 left: ${Math.random() * 100}%;
                 top: 100vh;
-                opacity: ${Math.random() * 0.7 + 0.3};
-                box-shadow: 0 0 10px var(--primary);
-                animation: floatUp ${Math.random() * 8 + 12}s linear forwards;
+                opacity: ${Math.random() * 0.6 + 0.25};
+                box-shadow: 0 0 8px var(--main-red);
+                animation: riseUp ${Math.random() * 7 + 10}s linear forwards;
             `;
-            
-            document.body.appendChild(particle);
-            setTimeout(() => particle.remove(), 20000);
+
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 18000);
         }
-        
-        // Create themed particles more frequently
-        setInterval(createThemedParticle, 600);
-        for (let i = 0; i < 20; i++) {
-            setTimeout(createThemedParticle, i * 150);
+
+        setInterval(themedPart, 500);
+        for (let k = 0; k < 15; k++) {
+            setTimeout(themedPart, k * 120);
         }
-        
-        // Add interactive cursor effect
+
+        // cursor trail
         document.addEventListener('mousemove', (e) => {
-            const cursor = document.createElement('div');
-            cursor.style.cssText = `
+            const trail = document.createElement('div');
+            trail.style.cssText = `
                 position: fixed;
                 left: ${e.clientX}px;
                 top: ${e.clientY}px;
                 width: 1px;
                 height: 1px;
-                background: var(--primary);
+                background: var(--main-red);
                 border-radius: 50%;
                 pointer-events: none;
                 z-index: 9999;
-                opacity: 0.5;
-                animation: cursorFade 1s ease-out forwards;
+                opacity: 0.4;
+                animation: trailFade 0.8s ease-out forwards;
             `;
-            
-            document.body.appendChild(cursor);
-            setTimeout(() => cursor.remove(), 1000);
+
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 800);
         });
-        
-        // Add cursor fade animation
-        if (!document.getElementById('cursor-styles')) {
-            const cursorStyle = document.createElement('style');
-            cursorStyle.id = 'cursor-styles';
-            cursorStyle.textContent = `
-                @keyframes cursorFade {
-                    0% { opacity: 0.5; transform: scale(1); }
-                    50% { opacity: 0.8; transform: scale(3); }
-                    100% { opacity: 0; transform: scale(5); }
+
+        if (!document.getElementById('trail-styles')) {
+            const tStyle = document.createElement('style');
+            tStyle.id = 'trail-styles';
+            tStyle.textContent = `
+                @keyframes trailFade {
+                    0% { opacity: 0.4; transform: scale(1); }
+                    50% { opacity: 0.7; transform: scale(2.5); }
+                    100% { opacity: 0; transform: scale(4); }
                 }
             `;
-            document.head.appendChild(cursorStyle);
+            document.head.appendChild(tStyle);
         }
-        
-        // Enhanced hover effects for all interactive elements
-        document.querySelectorAll('.cta-button, .nav-link, .preview-link').forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                element.style.transform = element.classList.contains('cta-button') ? 'translateY(-3px) scale(1.02)' : 'translateY(-1px)';
+
+        // hover tweaks
+        document.querySelectorAll('.action-btn, .menu-item, .connection-link').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                el.style.transform = el.classList.contains('action-btn') ? 'translateY(-2px) scale(1.01)' : 'translateY(-1px)';
             });
-            
-            element.addEventListener('mouseleave', () => {
-                element.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-        
-        // Form validation with better UX
-        document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
-            input.addEventListener('focus', () => {
-                input.style.borderColor = 'var(--accent)';
-                input.style.boxShadow = '0 0 20px rgba(255, 48, 48, 0.4)';
-            });
-            
-            input.addEventListener('blur', () => {
-                input.style.borderColor = 'var(--primary)';
-                input.style.boxShadow = '0 0 15px rgba(255, 48, 48, 0.2)';
+
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'translateY(0) scale(1)';
             });
         });
-        
-        // Premium upgrade simulation
-        document.querySelector('#premium .cta-button').addEventListener('click', () => {
-            const btn = document.querySelector('#premium .cta-button');
-            const originalText = btn.textContent;
-            
+
+        // input focus
+        document.querySelectorAll('.input-field, .text-area').forEach(inp => {
+            inp.addEventListener('focus', () => {
+                inp.style.borderColor = 'var(--glow-accent)';
+                inp.style.boxShadow = '0 0 15px rgba(200, 16, 46, 0.35)';
+            });
+
+            inp.addEventListener('blur', () => {
+                inp.style.borderColor = 'var(--main-red)';
+                inp.style.boxShadow = '0 0 12px rgba(200, 16, 46, 0.15)';
+            });
+        });
+
+        // premium click sim
+        document.querySelector('#premium .action-btn').addEventListener('click', () => {
+            const btn = document.querySelector('#premium .action-btn');
+            const orig = btn.textContent;
+
             btn.textContent = 'Processing... 🦇';
-            btn.style.background = 'linear-gradient(45deg, #8b5cf6, #a78bfa)';
-            
+            btn.style.background = 'linear-gradient(45deg, #7b1fa2, #9575cd)';
+
             setTimeout(() => {
-                btn.textContent = 'Welcome to Premium! 👑';
+                btn.textContent = 'Premium Unlocked! 👑';
                 btn.style.background = 'linear-gradient(45deg, #059669, #10b981)';
-                
+
                 if (currentUser) {
                     currentUser.badges.push('premium');
-                    updatePreview();
+                    refreshView();
                 }
-                
+
                 setTimeout(() => {
-                    btn.textContent = originalText;
+                    btn.textContent = orig;
                     btn.style.background = '';
-                }, 3000);
-            }, 2000);
+                }, 2500);
+            }, 1500);
         });
-        
-        // Add some Easter eggs
-        let konami = [];
-        const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // Up Up Down Down Left Right Left Right B A
-        
+
+        // konami fun
+        let keys = [];
+        const code = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+
         document.addEventListener('keydown', (e) => {
-            konami.push(e.keyCode);
-            if (konami.length > 10) konami.shift();
-            
-            if (konami.join(',') === konamiCode.join(',')) {
-                // Easter egg activated
+            keys.push(e.keyCode);
+            if (keys.length > 10) keys.shift();
+
+            if (keys.join(',') === code.join(',')) {
                 document.body.style.filter = 'hue-rotate(180deg)';
-                alert('🦇 Konami Code Activated! You found the secret! 🦇');
+                alert('🦇 Secret Unlocked! Konami vibes 🦇');
                 setTimeout(() => {
                     document.body.style.filter = 'none';
-                }, 5000);
-                konami = [];
+                }, 4000);
+                keys = [];
             }
         });
-        
-        // Initialize everything
-        updatePreview();
-        
-        // Add loading effect for the whole page
+
+        // init
+        refreshView();
+
+        // load fade
         window.addEventListener('load', () => {
             document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.8s ease-in-out';
-            
+            document.body.style.transition = 'opacity 0.7s ease-in-out';
+
             setTimeout(() => {
                 document.body.style.opacity = '1';
-            }, 100);
+            }, 80);
         });
-        
-        // Smooth section transitions
-        const observer = new IntersectionObserver((entries) => {
+
+        // section scroll fade
+        const obs = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
@@ -1317,12 +1277,12 @@ function isValidEmail(email) {
                 }
             });
         });
-        
-        document.querySelectorAll('.form-section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(30px)';
-            section.style.transition = 'all 0.6s ease-out';
-            observer.observe(section);
+
+        document.querySelectorAll('.edit-section').forEach(sec => {
+            sec.style.opacity = '0';
+            sec.style.transform = 'translateY(25px)';
+            sec.style.transition = 'all 0.5s ease-out';
+            obs.observe(sec);
         });
     </script>
 </body>
