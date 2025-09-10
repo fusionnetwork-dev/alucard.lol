@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>alucard.lol - the best</title>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap" rel="stylesheet">
-    <!-- Firebase SDKs -->
+    <!-- Firebase SDKs (Auth and Firestore only) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
     <style>
         * {
             margin: 0;
@@ -42,7 +41,7 @@
             line-height: 1.6;
         }
 
-        /* Simplified Background - less AI feel */
+        /* Simplified Background */
         .bg-container {
             position: fixed;
             top: 0;
@@ -376,7 +375,7 @@
             align-items: center;
             justify-content: center;
             font-size: 2.5rem;
-            object-fit: cover; /* For img */
+            object-fit: cover;
         }
 
         .preview-content {
@@ -460,7 +459,7 @@
             background: var(--secondary);
         }
 
-        /* Premium Section - Simplified */
+        /* Premium Section */
         .premium-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -575,7 +574,7 @@
             background: var(--secondary);
         }
 
-        /* Loading Animation - Simplified */
+        /* Loading Animation */
         .loading {
             position: fixed;
             top: 0;
@@ -703,8 +702,8 @@
                             <textarea class="form-input" id="bio" rows="4" placeholder="Tell your story..."></textarea>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Profile Picture</label>
-                            <input type="file" id="pfp-upload" accept="image/*">
+                            <label class="form-label">Profile Picture URL</label>
+                            <input type="url" class="form-input" id="pfp-url" placeholder="https://example.com/image.jpg">
                         </div>
                     </div>
 
@@ -719,7 +718,6 @@
                                 <div class="color-option" style="background: #660000" data-color="#660000"></div>
                                 <div class="color-option" style="background: #ff3333" data-color="#ff3333"></div>
                                 <div class="color-option" style="background: #ff6666" data-color="#ff6666"></div>
-                                <!-- Simplified palette to reds -->
                             </div>
                         </div>
                         <div class="form-group">
@@ -727,7 +725,6 @@
                             <select class="form-input" id="bg-style">
                                 <option value="gradient">Gradient</option>
                                 <option value="solid">Solid Black</option>
-                                <!-- Simplified options -->
                             </select>
                         </div>
                     </div>
@@ -737,7 +734,6 @@
                         <div class="effects-grid">
                             <div class="effect-card" data-effect="glow">Glow Text</div>
                             <div class="effect-card" data-effect="pulse">Pulse</div>
-                            <!-- Reduced effects -->
                         </div>
                     </div>
 
@@ -789,7 +785,7 @@
 
                 <div class="profile-preview" id="profile-preview">
                     <div class="preview-header"></div>
-                    <img class="preview-avatar" src="" alt="Avatar"> <!-- Changed to img -->
+                    <img class="preview-avatar" src="" alt="Avatar">
                     <div class="preview-content">
                         <h2 class="preview-name">YourUsername</h2>
                         <p class="preview-bio">Crafting digital shadows in the void...</p>
@@ -825,31 +821,26 @@
                     <h3 class="premium-title">Analytics</h3>
                     <p class="premium-description">See stats.</p>
                 </div>
-
                 <div class="premium-card">
                     <span class="premium-icon">🎨</span>
                     <h3 class="premium-title">Custom CSS</h3>
                     <p class="premium-description">Add your own styles.</p>
                 </div>
-
                 <div class="premium-card">
                     <span class="premium-icon">🌐</span>
-                    <h3 class="premium-title">Custom Domains</h3>
-                    <p class="premium-description">Get yourname.alucard.lol.</p>
+                    <h3 class="premium-title">Custom URL</h3>
+                    <p class="premium-description">Get alucard.lol/yourname.</p>
                 </div>
-
                 <div class="premium-card">
                     <span class="premium-icon">✨</span>
                     <h3 class="premium-title">Effects</h3>
                     <p class="premium-description">More effects.</p>
                 </div>
-
                 <div class="premium-card">
                     <span class="premium-icon">🔒</span>
                     <h3 class="premium-title">Password Protection</h3>
                     <p class="premium-description">Lock your profile.</p>
                 </div>
-
                 <div class="premium-card">
                     <span class="premium-icon">🎵</span>
                     <h3 class="premium-title">Music</h3>
@@ -870,17 +861,15 @@
     <script>
         // Firebase Config - Replace with your own
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBRX1FlZVxKaCnJwrf5gb6v_nw_YZYrVWU",
+            authDomain: "swaqqxyz.firebaseapp.com",
+            projectId: "swaqqxyz",
+            messagingSenderId: "1029810538334",
+            appId: "1:1029810538334:web:274e0631e6d83df7bdb1cf"
         };
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        const storage = firebase.storage();
 
         let currentUser = null;
 
@@ -903,8 +892,8 @@
             // Add scroll effects
             initScrollEffects();
 
-            // Check for subdomain and load profile if applicable
-            loadSubdomainProfile();
+            // Check for path and load profile if applicable
+            loadPathProfile();
         });
 
         // Navigation system
@@ -950,7 +939,7 @@
             const loginBtn = document.getElementById('login-btn');
             const signupBtn = document.getElementById('signup-btn');
 
-            // Tab switching (kept same)
+            // Tab switching
             const authTabs = document.querySelectorAll('.auth-tab');
             const loginForm = document.getElementById('login-form');
             const signupForm = document.getElementById('signup-form');
@@ -1002,23 +991,35 @@
                     return;
                 }
 
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        currentUser = userCredential.user;
-                        // Save additional data to Firestore
-                        db.collection('users').doc(currentUser.uid).set({
-                            username: username,
-                            email: email,
-                            admin: false, // Default not admin
-                            badges: ['beta'],
-                            pfp: '',
-                            // Other fields
-                        });
-                        showSuccessMessage(signupBtn, 'Account created!');
-                        setTimeout(() => navigateToProfile(), 1500);
-                    })
-                    .catch((error) => {
-                        showErrorMessage(error.message);
+                // Check if username is taken
+                db.collection('users').where('username', '==', username).get()
+                    .then((querySnapshot) => {
+                        if (!querySnapshot.empty) {
+                            showErrorMessage('Username already taken');
+                            return;
+                        }
+
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .then((userCredential) => {
+                                currentUser = userCredential.user;
+                                // Save additional data to Firestore
+                                db.collection('users').doc(currentUser.uid).set({
+                                    username: username,
+                                    email: email,
+                                    admin: false,
+                                    badges: ['beta'],
+                                    pfp: '',
+                                    displayName: username,
+                                    bio: '',
+                                    theme: { bg: 'gradient' },
+                                    links: {}
+                                });
+                                showSuccessMessage(signupBtn, 'Account created!');
+                                setTimeout(() => navigateToProfile(), 1500);
+                            })
+                            .catch((error) => {
+                                showErrorMessage(error.message);
+                            });
                     });
             });
 
@@ -1029,6 +1030,7 @@
                     loadUserData(user.uid);
                 } else {
                     currentUser = null;
+                    document.getElementById('admin-panel').style.display = 'none';
                 }
             });
         }
@@ -1037,14 +1039,22 @@
             db.collection('users').doc(uid).get().then((doc) => {
                 if (doc.exists) {
                     const data = doc.data();
-                    // Populate profile fields
                     document.getElementById('display-name').value = data.displayName || data.username;
                     document.getElementById('bio').value = data.bio || '';
-                    // PFP
+                    document.getElementById('pfp-url').value = data.pfp || '';
                     if (data.pfp) {
                         document.querySelector('.preview-avatar').src = data.pfp;
                     }
-                    // Badges, etc. - extend as needed
+                    ['discord', 'instagram', 'tiktok', 'twitch', 'spotify', 'custom'].forEach(id => {
+                        document.getElementById(id).value = data.links[id] || '';
+                    });
+                    // Update badges
+                    document.querySelectorAll('.badge').forEach(badge => {
+                        badge.classList.remove('selected');
+                        if (data.badges.includes(badge.getAttribute('data-badge'))) {
+                            badge.classList.add('selected');
+                        }
+                    });
                     if (data.admin) {
                         document.getElementById('admin-panel').style.display = 'block';
                         loadAdminUsers();
@@ -1060,16 +1070,18 @@
             db.collection('users').get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-                    const li = document.createElement('li');
-                    li.className = 'user-item';
-                    li.innerHTML = `
-                        <span>${data.username} (${data.email})</span>
-                        <div>
-                            <button class="admin-action" onclick="givePremium('${doc.id}')">Give Premium</button>
-                            <button class="admin-action" onclick="banUser('${doc.id}')">Ban</button>
-                        </div>
-                    `;
-                    userList.appendChild(li);
+                    if (!data.banned) {
+                        const li = document.createElement('li');
+                        li.className = 'user-item';
+                        li.innerHTML = `
+                            <span>${data.username} (${data.email})</span>
+                            <div>
+                                <button class="admin-action" onclick="givePremium('${doc.id}')">Give Premium</button>
+                                <button class="admin-action" onclick="banUser('${doc.id}')">Ban</button>
+                            </div>
+                        `;
+                        userList.appendChild(li);
+                    }
                 });
             });
         }
@@ -1083,20 +1095,20 @@
         }
 
         window.banUser = function(uid) {
-            // For example, set banned: true
             db.collection('users').doc(uid).update({
                 banned: true
             }).then(() => {
                 showSuccessMessage(null, 'User banned!');
+                loadAdminUsers();
             });
         }
 
         function showSuccessMessage(button, message) {
-            alert(message); // Simplified
+            alert(message);
         }
 
         function showErrorMessage(message) {
-            alert(message); // Simplified
+            alert(message);
         }
 
         function navigateToProfile() {
@@ -1113,7 +1125,7 @@
             const badges = document.querySelectorAll('.badge');
             const inputs = document.querySelectorAll('#profile input, #profile textarea, #profile select');
             const saveBtn = document.getElementById('save-profile');
-            const pfpUpload = document.getElementById('pfp-upload');
+            const pfpUrl = document.getElementById('pfp-url');
 
             // Color selection
             colorOptions.forEach(option => {
@@ -1135,11 +1147,17 @@
                 });
             });
 
-            // Badge selection
+            // Badge selection (only for admins to assign in DB)
             badges.forEach(badge => {
                 badge.addEventListener('click', () => {
-                    badge.classList.toggle('selected');
-                    updatePreview();
+                    if (currentUser) {
+                        db.collection('users').doc(currentUser.uid).get().then(doc => {
+                            if (doc.data().admin) {
+                                badge.classList.toggle('selected');
+                                updatePreview();
+                            }
+                        });
+                    }
                 });
             });
 
@@ -1148,18 +1166,15 @@
                 input.addEventListener('input', updatePreview);
             });
 
-            // PFP upload
-            pfpUpload.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file && currentUser) {
-                    const storageRef = storage.ref(`pfp/${currentUser.uid}`);
-                    storageRef.put(file).then(() => {
-                        storageRef.getDownloadURL().then((url) => {
-                            document.querySelector('.preview-avatar').src = url;
-                            db.collection('users').doc(currentUser.uid).update({ pfp: url });
-                        });
-                    });
+            // PFP URL update
+            pfpUrl.addEventListener('input', () => {
+                const url = pfpUrl.value;
+                if (url) {
+                    document.querySelector('.preview-avatar').src = url;
+                } else {
+                    document.querySelector('.preview-avatar').src = '';
                 }
+                updatePreview();
             });
 
             // Save profile
@@ -1172,10 +1187,28 @@
                 const data = {
                     displayName: document.getElementById('display-name').value,
                     bio: document.getElementById('bio').value,
-                    // Collect other data like badges, links, etc.
+                    pfp: document.getElementById('pfp-url').value,
+                    theme: { bg: document.getElementById('bg-style').value },
+                    links: {
+                        discord: document.getElementById('discord').value,
+                        instagram: document.getElementById('instagram').value,
+                        tiktok: document.getElementById('tiktok').value,
+                        twitch: document.getElementById('twitch').value,
+                        spotify: document.getElementById('spotify').value,
+                        custom: document.getElementById('custom').value
+                    }
                 };
-                db.collection('users').doc(currentUser.uid).update(data);
-                showSuccessMessage(saveBtn, 'Profile saved!');
+                // Only admins can modify badges
+                db.collection('users').doc(currentUser.uid).get().then(doc => {
+                    if (doc.data().admin) {
+                        data.badges = Array.from(document.querySelectorAll('.badge.selected'))
+                            .map(badge => badge.getAttribute('data-badge'));
+                    }
+                    db.collection('users').doc(currentUser.uid).update(data)
+                        .then(() => {
+                            showSuccessMessage(saveBtn, 'Profile saved!');
+                        });
+                });
             });
         }
 
@@ -1197,7 +1230,7 @@
                 badgeContainer.appendChild(newBadge);
             });
 
-            // Update links (simplified)
+            // Update links
             const linksContainer = preview.querySelector('.preview-links');
             linksContainer.innerHTML = '';
             
@@ -1214,16 +1247,20 @@
                 const input = document.getElementById(social.id);
                 if (input && input.value.trim()) {
                     const link = document.createElement('a');
-                    link.href = '#';
+                    link.href = input.value;
                     link.className = 'preview-link';
                     link.textContent = `${social.icon} ${social.name}`;
                     linksContainer.appendChild(link);
                 }
             });
 
-            // Apply effects (simplified)
+            // Apply effects
             const previewName = preview.querySelector('.preview-name');
             previewName.className = 'preview-name';
+            document.querySelectorAll('.effect-card.selected').forEach(effect => {
+                const effectName = effect.getAttribute('data-effect');
+                previewName.classList.add(effectName);
+            });
 
             // Update background
             const bgStyle = document.getElementById('bg-style').value;
@@ -1235,49 +1272,62 @@
             }
         }
 
-        // Premium upgrade (simulated)
-        document.getElementById('upgrade-btn')?.addEventListener('click', () => {
-            alert('Upgrade simulation');
-        });
+        // Dynamic effect styles
+        const effectStyles = document.createElement('style');
+        effectStyles.textContent = `
+            .glow { text-shadow: 0 0 10px var(--primary); }
+            .pulse { animation: pulse 2s infinite; }
+            @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        `;
+        document.head.appendChild(effectStyles);
 
-        // Load profile for subdomain alucard.lol/username - but since it's path? Wait, user said subdomain, but example is /{}
-        // Assuming path for simplicity, but for subdomain:
-        function loadSubdomainProfile() {
-            const hostParts = window.location.host.split('.');
-            if (hostParts.length > 2) {
-                const username = hostParts[0];
-                if (username !== 'www') {
-                    // Load user profile from DB by username
-                    db.collection('users').where('username', '==', username).get().then((querySnapshot) => {
-                        if (!querySnapshot.empty) {
-                            const doc = querySnapshot.docs[0];
-                            const data = doc.data();
-                            // Render profile preview as main content
-                            const main = document.querySelector('main');
-                            main.innerHTML = '';
-                            const profileDiv = document.createElement('div');
-                            profileDiv.className = 'profile-preview';
-                            profileDiv.style.position = 'relative';
-                            profileDiv.style.margin = 'auto';
-                            profileDiv.style.maxWidth = '400px';
-                            profileDiv.innerHTML = `
-                                <div class="preview-header" style="background: ${data.theme?.bg || 'var(--primary)'}"></div>
-                                <img class="preview-avatar" src="${data.pfp || ''}" alt="Avatar">
-                                <div class="preview-content">
-                                    <h2 class="preview-name">${data.displayName || data.username}</h2>
-                                    <p class="preview-bio">${data.bio || ''}</p>
-                                    <div class="preview-badges">
-                                        ${data.badges ? data.badges.map(b => `<div class="badge ${b}">${b.charAt(0).toUpperCase() + b.slice(1)}</div>`).join('') : ''}
-                                    </div>
-                                    <!-- Add links if available -->
+        // Load profile for path alucard.lol/USERNAME
+        function loadPathProfile() {
+            const path = window.location.pathname.split('/')[1];
+            if (path) {
+                db.collection('users').where('username', '==', path).get().then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const doc = querySnapshot.docs[0];
+                        const data = doc.data();
+                        if (data.banned) return;
+                        // Render profile as main content
+                        const main = document.querySelector('main');
+                        main.innerHTML = '';
+                        const profileDiv = document.createElement('div');
+                        profileDiv.className = 'profile-preview';
+                        profileDiv.style.position = 'relative';
+                        profileDiv.style.margin = 'auto';
+                        profileDiv.style.maxWidth = '400px';
+                        profileDiv.innerHTML = `
+                            <div class="preview-header" style="background: ${data.theme?.bg === 'gradient' ? 'linear-gradient(45deg, #ff0000, #cc0000)' : '#000000'}"></div>
+                            <img class="preview-avatar" src="${data.pfp || ''}" alt="Avatar">
+                            <div class="preview-content">
+                                <h2 class="preview-name">${data.displayName || data.username}</h2>
+                                <p class="preview-bio">${data.bio || ''}</p>
+                                <div class="preview-badges">
+                                    ${data.badges ? data.badges.map(b => `<div class="badge ${b}">${b.charAt(0).toUpperCase() + b.slice(1)}</div>`).join('') : ''}
                                 </div>
-                            `;
-                            main.appendChild(profileDiv);
-                        }
-                    });
-                }
+                                <div class="preview-links">
+                                    ${Object.entries(data.links || {}).map(([key, value]) => {
+                                        if (value) {
+                                            const icon = { discord: '🎮', instagram: '📸', tiktok: '🎵', twitch: '🎬', spotify: '🎧', custom: '🔗' }[key];
+                                            return `<a href="${value}" class="preview-link">${icon} ${key.charAt(0).toUpperCase() + key.slice(1)}</a>`;
+                                        }
+                                        return '';
+                                    }).join('')}
+                                </div>
+                            </div>
+                        `;
+                        main.appendChild(profileDiv);
+                    }
+                });
             }
         }
+
+        // Premium upgrade (simulated)
+        document.getElementById('upgrade-btn')?.addEventListener('click', () => {
+            alert('not impl yet');
+        });
     </script>
 </body>
 </html>
