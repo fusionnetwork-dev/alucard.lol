@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>alucard.lol - Under Maintenance</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap" rel="stylesheet">
+    <title>Alucard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,406 +13,986 @@
         }
 
         :root {
-            --primary: #ff0000;
-            --secondary: #cc0000;
-            --accent: #990000;
-            --dark: #000000;
-            --darker: #111111;
-            --surface: #222222;
+            --bg-primary: #000000;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1c1c1c;
+            --bg-hover: #2a2a2a;
             --text-primary: #ffffff;
-            --text-secondary: #dddddd;
-            --glow: rgba(255, 0, 0, 0.3);
+            --text-secondary: #b3b3b3;
+            --text-muted: #737373;
+            --accent: #dc2626;
+            --accent-hover: #b91c1c;
+            --accent-light: rgba(220, 38, 38, 0.1);
+            --border: #333333;
+            --border-light: #404040;
         }
 
-        html, body {
-            height: 100%;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+        .light-theme {
+            --bg-primary: #ffffff;
+            --bg-secondary: #fafafa;
+            --bg-tertiary: #f5f5f5;
+            --bg-hover: #eeeeee;
+            --text-primary: #0f0f0f;
+            --text-secondary: #525252;
+            --text-muted: #737373;
+            --border: #e5e5e5;
+            --border-light: #d4d4d4;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
-            overflow: hidden;
+            line-height: 1.5;
+            font-size: 15px;
         }
 
-        /* Animated Background Particles */
-        .bg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            background: var(--primary);
-            border-radius: 50%;
-            opacity: 0.1;
-            animation: float 6s infinite ease-in-out;
-        }
-
-        .particle:nth-child(1) {
-            width: 4px;
-            height: 4px;
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-            animation-duration: 8s;
-        }
-
-        .particle:nth-child(2) {
-            width: 6px;
-            height: 6px;
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-            animation-duration: 10s;
-        }
-
-        .particle:nth-child(3) {
-            width: 3px;
-            height: 3px;
-            top: 40%;
-            left: 30%;
-            animation-delay: 4s;
-            animation-duration: 7s;
-        }
-
-        .particle:nth-child(4) {
-            width: 5px;
-            height: 5px;
-            top: 80%;
-            left: 60%;
-            animation-delay: 1s;
-            animation-duration: 9s;
-        }
-
-        .particle:nth-child(5) {
-            width: 2px;
-            height: 2px;
-            top: 30%;
-            left: 70%;
-            animation-delay: 3s;
-            animation-duration: 6s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-20px) rotate(120deg); }
-            66% { transform: translateY(10px) rotate(240deg); }
-        }
-
-        /* Main Container */
-        .maintenance-container {
+        .app-container {
             display: flex;
-            flex-direction: column;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 275px;
+            padding: 0 12px;
+            border-right: 1px solid var(--border);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo-container {
+            padding: 20px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent), #7f1d1d);
+            border-radius: 8px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-            padding: 2rem;
+            font-weight: 900;
+            color: white;
+            font-size: 18px;
+        }
+
+        .brand-name {
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
+            padding: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 16px;
+            margin: 2px 0;
+            border-radius: 24px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 400;
+            transition: background-color 0.2s;
             position: relative;
         }
 
-        /* Logo */
-        .logo {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            text-shadow: 0 0 20px var(--glow);
-            animation: pulse-glow 3s infinite ease-in-out;
+        .nav-item:hover {
+            background: var(--bg-hover);
         }
 
-        @keyframes pulse-glow {
-            0%, 100% { text-shadow: 0 0 20px var(--glow); }
-            50% { text-shadow: 0 0 30px var(--glow), 0 0 40px var(--glow); }
+        .nav-item.active {
+            font-weight: 700;
+        }
+
+        .nav-icon {
+            width: 26px;
+            font-size: 26px;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            left: 20px;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .post-button {
+            width: 90%;
+            margin: 16px 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 24px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .post-button:hover {
+            background: var(--accent-hover);
         }
 
         /* Main Content */
-        .maintenance-content {
-            max-width: 600px;
-            background: rgba(34, 34, 34, 0.8);
-            border: 1px solid var(--primary);
-            border-radius: 25px;
-            padding: 3rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        .main-content {
+            flex: 1;
+            margin-left: 275px;
+            border-right: 1px solid var(--border);
+            min-height: 100vh;
         }
 
-        .maintenance-title {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
+        .header {
+            position: sticky;
+            top: 0;
+            background: var(--bg-primary);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            z-index: 100;
         }
 
-        .maintenance-message {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 2rem;
-        }
-
-        /* Status Indicator */
-        .status-indicator {
+        .header-content {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: rgba(255, 0, 0, 0.1);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 0, 0, 0.2);
+            justify-content: space-between;
         }
 
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--primary);
+        .page-title {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 8px;
             border-radius: 50%;
-            animation: blink 2s infinite;
+            transition: all 0.2s;
         }
 
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0.3; }
-        }
-
-        .status-text {
+        .theme-toggle:hover {
+            background: var(--bg-hover);
             color: var(--text-primary);
-            font-weight: 600;
         }
 
-        /* Progress Bar */
-        .progress-container {
-            margin: 2rem 0;
-            background: var(--surface);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--primary);
+        .search-bar {
+            position: relative;
+            width: 300px;
         }
 
-        .progress-bar {
-            height: 8px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            animation: progress 4s infinite ease-in-out;
-        }
-
-        @keyframes progress {
-            0% { width: 0%; }
-            50% { width: 75%; }
-            100% { width: 0%; }
-        }
-
-        /* ETA */
-        .eta {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .eta-time {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Social Links */
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid var(--primary);
-            border-radius: 25px;
+        .search-input {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 12px 20px 12px 48px;
             color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
         }
 
-        .social-link:hover {
-            background: rgba(255, 0, 0, 0.2);
-            border-color: var(--secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px var(--glow);
+        .search-input:focus {
+            border-color: var(--accent);
+            background: var(--bg-primary);
         }
 
-        /* Footer */
-        .maintenance-footer {
+        .search-icon {
             position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Compose Area */
+        .compose-section {
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+        }
+
+        .compose-container {
+            display: flex;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #7f1d1d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .compose-form {
+            flex: 1;
+        }
+
+        .compose-textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            line-height: 1.4;
+            resize: none;
+            outline: none;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .compose-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .compose-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .media-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .media-button {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .media-button:hover {
+            background: var(--accent-light);
+        }
+
+        .publish-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .char-count {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .char-count.warning { color: #f59e0b; }
+        .char-count.danger { color: var(--accent); }
+
+        .publish-button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .publish-button:hover {
+            background: var(--accent-hover);
+        }
+
+        .publish-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Feed */
+        .feed-container {
+            min-height: 400px;
+        }
+
+        .empty-feed {
+            padding: 60px 20px;
             text-align: center;
+            color: var(--text-muted);
         }
 
-        /* Mobile Responsiveness */
+        .empty-feed-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-feed h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .empty-feed p {
+            font-size: 16px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .post {
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .post:hover {
+            background: var(--bg-secondary);
+        }
+
+        .post-content {
+            display: flex;
+            gap: 12px;
+        }
+
+        .post-main {
+            flex: 1;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .author-name {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .author-handle {
+            color: var(--text-muted);
+        }
+
+        .verified-badge {
+            color: var(--accent);
+        }
+
+        .post-time {
+            color: var(--text-muted);
+        }
+
+        .post-text {
+            margin: 12px 0;
+            line-height: 1.4;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            max-width: 425px;
+            margin-top: 16px;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 24px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .action-button:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        /* Right Sidebar */
+        .right-sidebar {
+            width: 350px;
+            padding: 20px;
+        }
+
+        .sidebar-widget {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .widget-header {
+            padding: 16px 20px;
+            font-size: 20px;
+            font-weight: 800;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .widget-content {
+            padding: 0;
+        }
+
+        .trending-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .trending-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+
+        .trending-category {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .trending-title {
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .trending-count {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .right-sidebar {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
-            .maintenance-content {
-                padding: 2rem;
-                margin: 1rem;
+            .sidebar {
+                width: 68px;
             }
-
-            .social-links {
-                flex-direction: column;
-                align-items: center;
+            
+            .main-content {
+                margin-left: 68px;
             }
-
-            .social-link {
-                width: 100%;
-                max-width: 200px;
-                justify-content: center;
+            
+            .nav-item span {
+                display: none;
             }
-
-            .maintenance-footer {
-                position: relative;
-                bottom: 0;
-                margin-top: 2rem;
-                transform: none;
-                left: 0;
+            
+            .post-button {
+                width: 52px;
+                height: 52px;
+                border-radius: 50%;
+                margin: 16px 8px;
+                font-size: 24px;
+                padding: 0;
+            }
+            
+            .search-bar {
+                width: 200px;
+            }
+            
+            .brand-name {
+                display: none;
             }
         }
 
-        /* Custom scrollbar (if needed) */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Loading states and animations */
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 40px;
         }
 
-        ::-webkit-scrollbar-track {
-            background: var(--darker);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary);
-        }
-
-        /* Loading animation */
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255, 0, 0, 0.3);
-            border-top: 3px solid var(--primary);
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--accent);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 1rem auto;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-container">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-
-    <!-- Main Maintenance Container -->
-    <div class="maintenance-container">
-        <h1 class="logo">alucard.lol</h1>
-        
-        <div class="maintenance-content">
-            <h2 class="maintenance-title">Under Maintenance</h2>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <div class="logo">A</div>
+                <span class="brand-name">Alucard</span>
+            </div>
             
-            <p class="maintenance-message">
-                We're currently performing scheduled maintenance to improve your experience. 
-                The site will be back online shortly with enhanced features and performance improvements.
-            </p>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-page="home">
+                    <i class="fas fa-home nav-icon"></i>
+                    <span>Home</span>
+                </a>
+                
+                <a href="#" class="nav-item" data-page="explore">
+                    <i class="fas fa-hashtag nav-icon"></i>
+                    <span>Explore</span>
+                </a>
+                
+                <a href="#" class="nav-item" data-page="notifications">
+                    <i class="fas fa-bell nav-icon"></i>
+                    <span>Notifications</span>
+                    <div class="notification-dot" style="display: none;"></div>
+                </a>
+                
+                <a href="#" class="nav-item" data-page="messages">
+                    <i class="fas fa-envelope nav-icon"></i>
+                    <span>Messages</span>
+                </a>
+                
+                <a href="#" class="nav-item" data-page="bookmarks">
+                    <i class="fas fa-bookmark nav-icon"></i>
+                    <span>Bookmarks</span>
+                </a>
+                
+                <a href="#" class="nav-item" data-page="videos">
+                    <i class="fas fa-play nav-icon"></i>
+                    <span>Videos</span>
+                </a>
+                
+                <a href="#" class="nav-item" data-page="live">
+                    <i class="fas fa-broadcast-tower nav-icon"></i>
+                    <span>Live</span>
+                </a>
+                
+                <a href="#" class="nav-item" data-page="profile">
+                    <i class="fas fa-user nav-icon"></i>
+                    <span>Profile</span>
+                </a>
+                
+                <a href="#" class="nav-item" data-page="more">
+                    <i class="fas fa-ellipsis-h nav-icon"></i>
+                    <span>More</span>
+                </a>
+            </nav>
+            
+            <button class="post-button" onclick="focusCompose()">
+                <span class="desktop-text">Post</span>
+                <i class="fas fa-plus mobile-icon"></i>
+            </button>
+        </div>
 
-            <div class="status-indicator">
-                <div class="status-dot"></div>
-                <span class="status-text">Maintenance in Progress</span>
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="page-title">Home</h1>
+                    <div class="header-controls">
+                        <div class="search-bar">
+                            <input type="text" class="search-input" placeholder="Search Alucard">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <button class="theme-toggle" onclick="toggleTheme()">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div class="progress-container">
-                <div class="progress-bar"></div>
+            <div class="compose-section">
+                <div class="compose-container">
+                    <div class="user-avatar">Y</div>
+                    <div class="compose-form">
+                        <textarea 
+                            class="compose-textarea" 
+                            placeholder="What's happening?"
+                            maxlength="280"
+                            oninput="updateCharCount(this)"
+                            id="composeText"
+                        ></textarea>
+                        
+                        <div class="compose-actions">
+                            <div class="media-buttons">
+                                <button class="media-button" title="Photo/Video">
+                                    <i class="fas fa-image"></i>
+                                </button>
+                                <button class="media-button" title="GIF">
+                                    <i class="fas fa-file-image"></i>
+                                </button>
+                                <button class="media-button" title="Poll">
+                                    <i class="fas fa-poll"></i>
+                                </button>
+                                <button class="media-button" title="Emoji">
+                                    <i class="fas fa-smile"></i>
+                                </button>
+                                <button class="media-button" title="Schedule">
+                                    <i class="fas fa-calendar"></i>
+                                </button>
+                                <button class="media-button" title="Location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="publish-section">
+                                <span class="char-count" id="charCount">280</span>
+                                <button class="publish-button" id="publishBtn" onclick="publishPost()" disabled>
+                                    Post
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="loading-spinner"></div>
-
-            <p class="eta">
-                Estimated completion: <span class="eta-time" id="eta-time">ETA Unknown</span>
-            </p>
-
-            <div class="social-links">
-                <a href="status.html" class="social-link">
-                    📱 Status Page
-                </a>
-                <a href="#" class="social-link">
-                    ✉️ Contact Support
-                </a>
+            <div class="feed-container" id="feedContainer">
+                <div class="empty-feed">
+                    <div class="empty-feed-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Welcome to Alucard</h3>
+                    <p>This is where your timeline will live. Follow accounts, share your thoughts, and discover what's happening around the world.</p>
+                </div>
             </div>
         </div>
 
-        <div class="maintenance-footer">
-            <p>&copy; 2025 alucard.lol - We'll be back soon!</p>
+        <!-- Right Sidebar -->
+        <div class="right-sidebar">
+            <div class="sidebar-widget">
+                <div class="widget-header">What's happening</div>
+                <div class="widget-content">
+                    <div class="trending-item">
+                        <div class="trending-category">Technology · Trending</div>
+                        <div class="trending-title">Social Media</div>
+                        <div class="trending-count">12.5K posts</div>
+                    </div>
+                    <div class="trending-item">
+                        <div class="trending-category">Trending</div>
+                        <div class="trending-title">Web Development</div>
+                        <div class="trending-count">8.2K posts</div>
+                    </div>
+                    <div class="trending-item">
+                        <div class="trending-category">Tech · Trending</div>
+                        <div class="trending-title">Platform Launch</div>
+                        <div class="trending-count">5.9K posts</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Static ETA - no countdown needed for "till after school"
-        // The completion time is now hardcoded in the HTML
+        // State management
+        let posts = [];
+        let currentTheme = 'dark';
+        let currentUser = {
+            username: 'yak',
+            handle: '@1yak',
+            avatar: 'Y',
+            verified: true
+        };
 
-        // Add some interactivity - particle click effect
-        document.addEventListener('click', function(e) {
-            const particle = document.createElement('div');
-            particle.style.position = 'fixed';
-            particle.style.left = e.clientX + 'px';
-            particle.style.top = e.clientY + 'px';
-            particle.style.width = '6px';
-            particle.style.height = '6px';
-            particle.style.background = '#ff0000';
-            particle.style.borderRadius = '50%';
-            particle.style.pointerEvents = 'none';
-            particle.style.zIndex = '1000';
-            particle.style.animation = 'clickParticle 0.8s ease-out forwards';
-            
-            document.body.appendChild(particle);
-            
-            setTimeout(() => {
-                document.body.removeChild(particle);
-            }, 800);
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPosts();
+            setupEventListeners();
         });
 
-        // Add click particle animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes clickParticle {
-                0% {
-                    transform: scale(0);
-                    opacity: 1;
-                }
-                100% {
-                    transform: scale(4);
-                    opacity: 0;
-                }
+        function setupEventListeners() {
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    navigateToPage(page);
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            searchInput.addEventListener('input', debounce(handleSearch, 300));
+
+            // Compose textarea auto-resize
+            const textarea = document.getElementById('composeText');
+            textarea.addEventListener('input', autoResize);
+        }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.classList.toggle('light-theme', currentTheme === 'light');
+            
+            const themeIcon = document.querySelector('.theme-toggle i');
+            themeIcon.className = currentTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+            
+            // Save theme preference
+            localStorage.setItem('theme', currentTheme);
+        }
+
+        function updateCharCount(textarea) {
+            const remaining = 280 - textarea.value.length;
+            const counter = document.getElementById('charCount');
+            const publishBtn = document.getElementById('publishBtn');
+            
+            counter.textContent = remaining;
+            
+            // Update counter color
+            counter.className = 'char-count';
+            if (remaining < 20) counter.classList.add('warning');
+            if (remaining < 0) counter.classList.add('danger');
+            
+            // Enable/disable publish button
+            publishBtn.disabled = textarea.value.trim().length === 0 || remaining < 0;
+        }
+
+        function publishPost() {
+            const textarea = document.getElementById('composeText');
+            const content = textarea.value.trim();
+            
+            if (!content) return;
+            
+            const post = {
+                id: generateId(),
+                author: currentUser,
+                content: content,
+                timestamp: new Date(),
+                likes: 0,
+                reposts: 0,
+                replies: 0,
+                liked: false,
+                reposted: false
+            };
+            
+            // Add to beginning of posts array
+            posts.unshift(post);
+            
+            // Clear compose area
+            textarea.value = '';
+            updateCharCount(textarea);
+            
+            // Re-render feed
+            renderFeed();
+            
+            // Show success feedback
+            showNotification('Post published!');
+        }
+
+        function renderFeed() {
+            const container = document.getElementById('feedContainer');
+            
+            if (posts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-feed">
+                        <div class="empty-feed-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Welcome to Alucard</h3>
+                        <p>This is where your timeline will live. Follow accounts, share your thoughts, and discover what's happening around the world.</p>
+                    </div>
+                `;
+                return;
             }
-        `;
-        document.head.appendChild(style);
+            
+            container.innerHTML = posts.map(post => createPostHTML(post)).join('');
+        }
+
+        function createPostHTML(post) {
+            const timeAgo = formatTimeAgo(post.timestamp);
+            
+            return `
+                <div class="post fade-in" data-post-id="${post.id}">
+                    <div class="post-content">
+                        <div class="user-avatar">${post.author.avatar}</div>
+                        <div class="post-main">
+                            <div class="post-header">
+                                <span class="author-name">${post.author.username}</span>
+                                <span class="author-handle">${post.author.handle}</span>
+                                ${post.author.verified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}
+                                <span class="post-time">· ${timeAgo}</span>
+                            </div>
+                            <div class="post-text">${escapeHtml(post.content)}</div>
+                            <div class="post-actions">
+                                <button class="action-button" onclick="replyToPost('${post.id}')">
+                                    <i class="far fa-comment"></i>
+                                    <span>${post.replies}</span>
+                                </button>
+                                <button class="action-button" onclick="repostPost('${post.id}')">
+                                    <i class="fas fa-retweet"></i>
+                                    <span>${post.reposts}</span>
+                                </button>
+                                <button class="action-button ${post.liked ? 'liked' : ''}" onclick="likePost('${post.id}')">
+                                    <i class="${post.liked ? 'fas' : 'far'} fa-heart"></i>
+                                    <span>${post.likes}</span>
+                                </button>
+                                <button class="action-button" onclick="sharePost('${post.id}')">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function likePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            post.liked = !post.liked;
+            post.likes += post.liked ? 1 : -1;
+            
+            renderFeed();
+        }
+
+        function repostPost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            post.reposted = !post.reposted;
+            post.reposts += post.reposted ? 1 : -1;
+            
+            renderFeed();
+        }
+
+        function navigateToPage(page) {
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-page="${page}"]`).classList.add('active');
+            
+            // Update page title
+            const titles = {
+                'home': 'Home',
+                'explore': 'Explore',
+                'notifications': 'Notifications',
+                'messages': 'Messages',
+                'bookmarks': 'Bookmarks',
+                'videos': 'Videos',
+                'live': 'Live',
+                'profile': 'Profile',
+                'more': 'More'
+            };
+            
+            document.querySelector('.page-title').textContent = titles[page] || 'Alucard';
+        }
+
+        function handleSearch(query) {
+            if (query.trim().length === 0) return;
+            
+            // Implement search functionality
+            console.log('Searching for:', query);
+        }
+
+        function focusCompose() {
+            document.getElementById('composeText').focus();
+        }
+
+        function autoResize(e) {
+            const textarea = e.target;
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 300) + 'px';
+        }
+
+        // Utility functions
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function formatTimeAgo(date) {
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+            
+            if (diffInSeconds < 60) return `${diffInSeconds}s`;
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
+            return `${Math.floor(diffInSeconds / 86400)}d`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function showNotification(message) {
+            // Simple notification system
+            console.log('Notification:', message);
+        }
+
+        function loadPosts() {
+            // Initialize with empty feed
+            renderFeed();
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            currentTheme = savedTheme;
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-theme');
+                document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+            }
+        }
     </script>
 </body>
 </html>
